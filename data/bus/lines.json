@@ -1,0 +1,123 @@
+[
+  {
+    "id": 1,
+    "stops": [
+      { "station": "grabrik", "offset": 0 },
+      { "station": "svarca", "offset": 4 },
+      { "station": "gaza", "offset": 8 },
+      { "station": "zvijezda", "offset": 12 },
+      { "station": "kolodvor", "offset": 16 },
+      { "station": "banija", "offset": 20 },
+      { "station": "turanj", "offset": 26 }
+    ],
+    "sched": {
+      "radni": { "first": "05:15", "last": "22:30", "headway": 20 },
+      "subota": { "first": "06:00", "last": "21:30", "headway": 40 },
+      "nedjelja": { "first": "07:00", "last": "20:30", "headway": 60 }
+    }
+  },
+  {
+    "id": 2,
+    "stops": [
+      { "station": "dubovac", "offset": 0 },
+      { "station": "luscic", "offset": 5 },
+      { "station": "kolodvor", "offset": 10 },
+      { "station": "zvijezda", "offset": 14 },
+      { "station": "gaza", "offset": 18 },
+      { "station": "mekusje", "offset": 24 },
+      { "station": "kamensko", "offset": 30 }
+    ],
+    "sched": {
+      "radni": { "first": "05:30", "last": "22:00", "headway": 30 },
+      "subota": { "first": "06:30", "last": "21:00", "headway": 60 },
+      "nedjelja": { "first": "08:00", "last": "20:00", "headway": 80 }
+    }
+  },
+  {
+    "id": 3,
+    "stops": [
+      { "station": "banija", "offset": 0 },
+      { "station": "zvijezda", "offset": 5 },
+      { "station": "gaza", "offset": 10 },
+      { "station": "mostanje", "offset": 16 }
+    ],
+    "sched": {
+      "radni": { "first": "05:45", "last": "21:45", "headway": 25 },
+      "subota": { "first": "06:45", "last": "20:45", "headway": 50 },
+      "nedjelja": { "first": "08:15", "last": "19:45", "headway": 75 }
+    }
+  },
+  {
+    "id": 4,
+    "stops": [
+      { "station": "svarca", "offset": 0 },
+      { "station": "grabrik", "offset": 4 },
+      { "station": "kolodvor", "offset": 9 },
+      { "station": "zvijezda", "offset": 13 }
+    ],
+    "sched": {
+      "radni": { "first": "06:00", "last": "21:00", "headway": 30 },
+      "subota": { "first": "07:00", "last": "20:00", "headway": 60 },
+      "nedjelja": { "first": "08:30", "last": "19:30", "headway": 90 }
+    },
+    "notice": "Linija 4: izmijenjena trasa od 20.7. zbog radova u Ulici V. Mačeka. Stanica Grabrik privremeno premještena 100 m prema kolodvoru."
+  },
+  {
+    "id": 5,
+    "stops": [
+      { "station": "gaza", "offset": 0 },
+      { "station": "turanj", "offset": 7 },
+      { "station": "mekusje", "offset": 13 }
+    ],
+    "sched": {
+      "radni": { "first": "06:15", "last": "20:15", "headway": 40 },
+      "subota": { "first": "07:15", "last": "19:15", "headway": 80 },
+      "nedjelja": { "first": "09:00", "last": "18:00", "headway": 120 }
+    }
+  },
+  {
+    "id": 6,
+    "stops": [
+      { "station": "luscic", "offset": 0 },
+      { "station": "kolodvor", "offset": 6 },
+      { "station": "zvijezda", "offset": 10 },
+      { "station": "svarca", "offset": 16 },
+      { "station": "turanj", "offset": 22 }
+    ],
+    "sched": {
+      "radni": { "first": "05:50", "last": "21:50", "headway": 30 },
+      "subota": { "first": "06:50", "last": "20:50", "headway": 60 },
+      "nedjelja": null
+    }
+  },
+  {
+    "id": 7,
+    "stops": [
+      { "station": "kolodvor", "offset": 0 },
+      { "station": "gaza", "offset": 6 },
+      { "station": "turanj", "offset": 12 },
+      { "station": "mekusje", "offset": 18 },
+      { "station": "kamensko", "offset": 24 }
+    ],
+    "sched": {
+      "radni": { "first": "06:10", "last": "21:40", "headway": 35 },
+      "subota": { "first": "07:10", "last": "20:40", "headway": 70 },
+      "nedjelja": { "first": "08:40", "last": "19:10", "headway": 105 }
+    }
+  },
+  {
+    "id": 8,
+    "stops": [
+      { "station": "grabrik", "offset": 0 },
+      { "station": "kolodvor", "offset": 5 },
+      { "station": "zvijezda", "offset": 9 },
+      { "station": "gaza", "offset": 13 },
+      { "station": "mekusje", "offset": 20 }
+    ],
+    "sched": {
+      "radni": { "first": "05:40", "last": "22:10", "headway": 25 },
+      "subota": { "first": "06:40", "last": "21:10", "headway": 50 },
+      "nedjelja": { "first": "07:40", "last": "20:10", "headway": 75 }
+    }
+  }
+]

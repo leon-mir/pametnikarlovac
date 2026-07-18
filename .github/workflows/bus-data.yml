@@ -1,0 +1,43 @@
+name: Bus — dohvat voznog reda
+
+# Osvježava vozni red iz gis.karlovac.hr i commita promjene → Vercel automatski redeploya.
+# Podaci se NE dohvaćaju u aplikaciji (runtime) — samo ovdje, po rasporedu.
+
+on:
+  schedule:
+    - cron: '20 3 * * *' # svaki dan u 03:20 UTC (05:20 po lokalnom ljetnom vremenu)
+  workflow_dispatch: {} # ručno pokretanje iz GitHub UI-ja
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bus-data
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # Dohvat u data/bus/samples/ (dok se aplikacija ne prebaci na stvarne podatke).
+      # Kad app konzumira stvarne podatke: makni `--out=samples`.
+      - name: Dohvati vozni red
+        run: node data/scripts/fetch-bus.mjs --out=samples
+
+      - name: Commitaj promjene ako ih ima
+        run: |
+          if [ -n "$(git status --porcelain data/bus)" ]; then
+            git config user.name  "pametni-karlovac-bot"
+            git config user.email "bot@pametnikarlovac.hr"
+            git add data/bus
+            git commit -m "chore(data): osvježen vozni red ($(date -u +%Y-%m-%d))"
+            git push
+          else
+            echo "Nema promjena u voznom redu."
+          fi

@@ -1,0 +1,237 @@
+[
+  {
+    "id": 502,
+    "oznaka": "11",
+    "smjer": "polazni"
+  },
+  {
+    "id": 508,
+    "oznaka": "14",
+    "smjer": "polazni"
+  },
+  {
+    "id": 511,
+    "oznaka": "3",
+    "smjer": "polazni"
+  },
+  {
+    "id": 519,
+    "oznaka": "18",
+    "smjer": "polazni"
+  },
+  {
+    "id": 520,
+    "oznaka": "17",
+    "smjer": "polazni"
+  },
+  {
+    "id": 522,
+    "oznaka": "4",
+    "smjer": "polazni"
+  },
+  {
+    "id": 525,
+    "oznaka": "15",
+    "smjer": "polazni"
+  },
+  {
+    "id": 528,
+    "oznaka": "5",
+    "smjer": "polazni"
+  },
+  {
+    "id": 530,
+    "oznaka": "7",
+    "smjer": "polazni"
+  },
+  {
+    "id": 531,
+    "oznaka": "9",
+    "smjer": "polazni"
+  },
+  {
+    "id": 532,
+    "oznaka": "10",
+    "smjer": "polazni"
+  },
+  {
+    "id": 533,
+    "oznaka": "1",
+    "smjer": "povratni"
+  },
+  {
+    "id": 534,
+    "oznaka": "11",
+    "smjer": "povratni"
+  },
+  {
+    "id": 535,
+    "oznaka": "101",
+    "smjer": "polazni"
+  },
+  {
+    "id": 537,
+    "oznaka": "14",
+    "smjer": "povratni"
+  },
+  {
+    "id": 539,
+    "oznaka": "3",
+    "smjer": "povratni"
+  },
+  {
+    "id": 542,
+    "oznaka": "17",
+    "smjer": "povratni"
+  },
+  {
+    "id": 545,
+    "oznaka": "18",
+    "smjer": "povratni"
+  },
+  {
+    "id": 550,
+    "oznaka": "5",
+    "smjer": "povratni"
+  },
+  {
+    "id": 556,
+    "oznaka": "9",
+    "smjer": "povratni"
+  },
+  {
+    "id": 557,
+    "oznaka": "6",
+    "smjer": "polazni"
+  },
+  {
+    "id": 558,
+    "oznaka": "6",
+    "smjer": "povratni"
+  },
+  {
+    "id": 560,
+    "oznaka": "100",
+    "smjer": "polazni"
+  },
+  {
+    "id": 562,
+    "oznaka": "4",
+    "smjer": "povratni"
+  },
+  {
+    "id": 567,
+    "oznaka": "16",
+    "smjer": "polazni"
+  },
+  {
+    "id": 578,
+    "oznaka": "20",
+    "smjer": "polazni"
+  },
+  {
+    "id": 579,
+    "oznaka": "20",
+    "smjer": "povratni"
+  },
+  {
+    "id": 580,
+    "oznaka": "13",
+    "smjer": "povratni"
+  },
+  {
+    "id": 581,
+    "oznaka": "15",
+    "smjer": "povratni"
+  },
+  {
+    "id": 582,
+    "oznaka": "16",
+    "smjer": "povratni"
+  },
+  {
+    "id": 583,
+    "oznaka": "2",
+    "smjer": "polazni"
+  },
+  {
+    "id": 585,
+    "oznaka": "19",
+    "smjer": "polazni"
+  },
+  {
+    "id": 588,
+    "oznaka": "19",
+    "smjer": "povratni"
+  },
+  {
+    "id": 591,
+    "oznaka": "13",
+    "smjer": "polazni"
+  },
+  {
+    "id": 592,
+    "oznaka": "102",
+    "smjer": "povratni"
+  },
+  {
+    "id": 593,
+    "oznaka": "102",
+    "smjer": "polazni"
+  },
+  {
+    "id": 613,
+    "oznaka": "2",
+    "smjer": "povratni"
+  },
+  {
+    "id": 629,
+    "oznaka": "10",
+    "smjer": "povratni"
+  },
+  {
+    "id": 633,
+    "oznaka": "7",
+    "smjer": "povratni"
+  },
+  {
+    "id": 635,
+    "oznaka": "4",
+    "smjer": "polazni"
+  },
+  {
+    "id": 636,
+    "oznaka": "4",
+    "smjer": "povratni"
+  },
+  {
+    "id": 642,
+    "oznaka": "8",
+    "smjer": "polazni"
+  },
+  {
+    "id": 643,
+    "oznaka": "8",
+    "smjer": "povratni"
+  },
+  {
+    "id": 701,
+    "oznaka": "4",
+    "smjer": "polazni"
+  },
+  {
+    "id": 703,
+    "oznaka": "4",
+    "smjer": "povratni"
+  },
+  {
+    "id": 704,
+    "oznaka": "12",
+    "smjer": "polazni"
+  },
+  {
+    "id": 705,
+    "oznaka": "12",
+    "smjer": "povratni"
+  }
+]

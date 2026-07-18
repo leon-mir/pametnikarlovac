@@ -1,0 +1,9 @@
+[
+  { "label": "Pojedinačna karta (kod vozača)", "price": "1,60 €" },
+  { "label": "Pojedinačna karta (aplikacija/kiosk)", "price": "1,30 €" },
+  { "label": "Dnevna karta", "price": "4,00 €" },
+  { "label": "Mjesečna — opća", "price": "33,00 €" },
+  { "label": "Mjesečna — učenici i studenti", "price": "18,00 €" },
+  { "label": "Mjesečna — umirovljenici", "price": "15,00 €" },
+  { "label": "Osobe 65+ s prebivalištem u Karlovcu", "price": "besplatno" }
+]

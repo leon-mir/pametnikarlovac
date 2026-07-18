@@ -1,0 +1,14 @@
+[
+  { "id": "zvijezda",  "name": "Zvijezda",           "lat": 45.4931, "lng": 15.5558 },
+  { "id": "kolodvor",  "name": "Autobusni kolodvor", "lat": 45.4893, "lng": 15.5528 },
+  { "id": "banija",    "name": "Banija",             "lat": 45.4998, "lng": 15.5479 },
+  { "id": "dubovac",   "name": "Dubovac",            "lat": 45.4965, "lng": 15.5369 },
+  { "id": "grabrik",   "name": "Grabrik",            "lat": 45.4845, "lng": 15.5445 },
+  { "id": "svarca",    "name": "Švarča",             "lat": 45.4776, "lng": 15.5541 },
+  { "id": "gaza",      "name": "Gaza",               "lat": 45.4913, "lng": 15.5641 },
+  { "id": "luscic",    "name": "Luščić",             "lat": 45.4886, "lng": 15.5314 },
+  { "id": "mostanje",  "name": "Mostanje",           "lat": 45.4979, "lng": 15.5804 },
+  { "id": "turanj",    "name": "Turanj",             "lat": 45.4776, "lng": 15.5675 },
+  { "id": "mekusje",   "name": "Mekušje",            "lat": 45.4832, "lng": 15.5904 },
+  { "id": "kamensko",  "name": "Kamensko",           "lat": 45.4699, "lng": 15.6002 }
+]
