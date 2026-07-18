@@ -1,0 +1,150 @@
+/* ============================================================
+   Pametni Karlovac — design tokeni
+   Izvor istine: shared/design-system.md
+   Sve boje potječu sa stvarnih mjesta u Karlovcu.
+   Ne mijenjati bez izmjene design-system.md (samo root agent).
+   ============================================================ */
+
+:root {
+  /* --- Brand boje ------------------------------------------------ */
+  /* prosjek 4 rijeke (Korana, Kupa, Mrežnica, Dobra) */
+  --pk-primary: #15404A;
+  --pk-bg: #FAF7F2;
+  --pk-surface: #FFFFFF;
+
+  /* križ tornja crkve sv. Trojstva */
+  --pk-gold: #D89F1F;
+  --pk-gold-text: #8A6408;
+
+  /* zvonik crkve sv. Trojstva */
+  --pk-patina: #4D9397;
+  --pk-patina-strong: #256066;
+
+  /* krovovi u Zvijezdi */
+  --pk-roof: #9C6D5A;
+  --pk-roof-strong: #7A5142;
+
+  /* grb grada */
+  --pk-danger: #E32213;
+  --pk-danger-strong: #B81B0F;
+  --pk-success: #0D5736;
+
+  /* 4 rijeke — sekvencijalne skale u grafovima */
+  --pk-river-korana: #09313A;
+  --pk-river-kupa: #19424A;
+  --pk-river-mreznica: #193D48;
+  --pk-river-dobra: #19515A;
+
+  /* --- Semantika -------------------------------------------------- */
+  --pk-text: var(--pk-primary);
+  --pk-text-muted: #5C6B70;
+  --pk-text-inverse: #FFFFFF;
+  --pk-border-subtle: #E7E0D5;
+  --pk-border-strong: #5C6B70;
+  --pk-focus: var(--pk-gold);
+
+  /* akcent — default hub; po aplikaciji preko [data-app] */
+  --pk-accent: var(--pk-gold);
+  --pk-accent-text: var(--pk-gold-text);
+  --pk-accent-contrast: var(--pk-primary); /* boja teksta NA akcentnoj plohi */
+
+  /* --- Tipografija ------------------------------------------------ */
+  --pk-font: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
+  --pk-font-scale: 1; /* mijenja [data-textsize] */
+
+  --pk-fs-mega: calc(40px * var(--pk-font-scale));
+  --pk-fs-display: calc(32px * var(--pk-font-scale));
+  --pk-fs-h1: calc(28px * var(--pk-font-scale));
+  --pk-fs-h2: calc(24px * var(--pk-font-scale));
+  --pk-fs-h3: calc(22px * var(--pk-font-scale));
+  --pk-fs-body-lg: calc(20px * var(--pk-font-scale));
+  --pk-fs-body: calc(18px * var(--pk-font-scale));
+  --pk-fs-caption: calc(16px * var(--pk-font-scale));
+
+  --pk-lh-text: 1.5;
+  --pk-lh-tight: 1.2;
+
+  /* --- Razmaci (4px grid) ----------------------------------------- */
+  --pk-space-1: 4px;
+  --pk-space-2: 8px;
+  --pk-space-3: 12px;
+  --pk-space-4: 16px;
+  --pk-space-5: 24px;
+  --pk-space-6: 32px;
+  --pk-space-7: 48px;
+  --pk-space-8: 64px;
+
+  /* --- Oblici i elevacija ------------------------------------------ */
+  --pk-radius-sm: 8px;
+  --pk-radius-md: 12px;
+  --pk-radius-lg: 16px;
+  --pk-radius-full: 999px;
+  --pk-shadow-card: 0 1px 3px rgba(21, 64, 74, 0.12);
+
+  /* --- Dodir i slojevi --------------------------------------------- */
+  --pk-tap-min: 48px;
+  --pk-z-header: 50;
+  --pk-z-nav: 100;
+  --pk-z-banner: 200;
+  --pk-z-toast: 300;
+}
+
+/* --- Akcent po aplikaciji ------------------------------------------ */
+[data-app="bus"] {
+  --pk-accent: var(--pk-gold);
+  --pk-accent-text: var(--pk-gold-text);
+  --pk-accent-contrast: var(--pk-primary);
+}
+
+[data-app="proracun"] {
+  --pk-accent: var(--pk-patina-strong); /* solid plohe: patina-strong, bijeli tekst */
+  --pk-accent-text: var(--pk-patina-strong);
+  --pk-accent-contrast: var(--pk-text-inverse);
+}
+
+[data-app="dogadaji"] {
+  --pk-accent: var(--pk-roof-strong);
+  --pk-accent-text: var(--pk-roof-strong);
+  --pk-accent-contrast: var(--pk-text-inverse);
+}
+
+/* --- Korisnička veličina teksta ------------------------------------ */
+[data-textsize="velika"] { --pk-font-scale: 1.15; }
+[data-textsize="najveca"] { --pk-font-scale: 1.3; }
+
+/* --- Bazna pravila (jedina ne-token pravila u ovoj datoteci) -------- */
+:focus-visible {
+  outline: 3px solid var(--pk-focus);
+  outline-offset: 2px;
+}
+
+.pk-on-dark :focus-visible,
+[data-on-dark] :focus-visible {
+  outline-color: var(--pk-text-inverse);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.pk-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Vremena i iznosi uvijek tabular */
+.pk-num {
+  font-variant-numeric: tabular-nums;
+}

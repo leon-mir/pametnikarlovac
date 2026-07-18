@@ -1,0 +1,11 @@
+# Interna razrada ideje — ne ide na GitHub (javna verzija ide na web kad bude gotov)
+interno/
+
+# Standardno
+node_modules/
+.env
+.env.*
+dist/
+.DS_Store
+.vercel
+.astro/
