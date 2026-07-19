@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useApp, type SchedOverride } from '@/state/AppState';
 import { autoSchedType, DAYS_HR, fmtDate, SCHED_LABEL, toISO } from '@/lib/dates';
-import { Calendar, Check, StarLogo } from '@/lib/icons';
+import { Calendar, Check } from '@/lib/icons';
 import type { SchedType } from '@/lib/types';
 
 const TYPE_OPTS: [SchedOverride, string][] = [
@@ -63,7 +63,7 @@ export function Header() {
   return (
     <header className="pk-header on-dark">
       <span className="logo">
-        <StarLogo />
+        <img src="/logo-mark.png" alt="" width={30} height={34} />
       </span>
       <div className="title">
         Bus<small>Pametni Karlovac</small>

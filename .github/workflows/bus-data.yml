@@ -25,10 +25,10 @@ jobs:
         with:
           node-version: 22
 
-      # Dohvat u data/bus/samples/ (dok se aplikacija ne prebaci na stvarne podatke).
-      # Kad app konzumira stvarne podatke: makni `--out=samples`.
+      # Dohvat stvarnog voznog reda, trasa i obavijesti → data/bus/{lines,stations,geometry,meta}.json.
+      # Aplikacija konzumira ove datoteke (bundle-ane na buildu); nema runtime poziva GIS-u.
       - name: Dohvati vozni red
-        run: node data/scripts/fetch-bus.mjs --out=samples
+        run: node data/scripts/fetch-bus.mjs
 
       - name: Commitaj promjene ako ih ima
         run: |

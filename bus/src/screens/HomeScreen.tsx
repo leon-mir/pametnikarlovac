@@ -4,7 +4,7 @@ import { useApp } from '@/state/AppState';
 import { STATIONS, stationById } from '@/lib/data';
 import { departuresAt, firstTomorrow, noticesFor, tripConnections } from '@/lib/schedule';
 import { fmt, fmtDate, nowMin, SCHED_LABEL } from '@/lib/dates';
-import { Banner, DepartureRow } from '@/components/common';
+import { NoticeBanners, DepartureRow } from '@/components/common';
 import { DemoNote } from '@/components/DemoNote';
 import { Chevron, Close, Locate, MapIcon, Pin, Search, Star, Swap } from '@/lib/icons';
 import type { Connection } from '@/lib/types';
@@ -39,9 +39,7 @@ export function HomeScreen() {
 
       {my ? (
         <>
-          {noticesFor(my.id).map((l) => (
-            <Banner key={l.id} line={l} />
-          ))}
+          <NoticeBanners lines={noticesFor(my.id)} />
           <div className="hero">
             <p className="eyebrow">
               <Star filled /> Moja stanica
@@ -166,10 +164,10 @@ function SavedTrip() {
   const legVal = (d: Connection | undefined): [string, string] => {
     if (!d) return ['—', 'nema više danas'];
     const diff = d.time - nowMin();
-    if (!isTodayView) return [fmt(d.time), 'linija ' + d.line.id];
-    if (diff <= 0) return ['kreće', 'upravo · linija ' + d.line.id];
-    if (diff > 59) return [fmt(d.time), 'linija ' + d.line.id];
-    return ['za ' + diff + ' min', fmt(d.time) + ' · linija ' + d.line.id];
+    if (!isTodayView) return [fmt(d.time), 'linija ' + d.line.label];
+    if (diff <= 0) return ['kreće', 'upravo · linija ' + d.line.label];
+    if (diff > 59) return [fmt(d.time), 'linija ' + d.line.label];
+    return ['za ' + diff + ' min', fmt(d.time) + ' · linija ' + d.line.label];
   };
   const [tv, ts] = legVal(tamo);
   const [nv, ns] = legVal(natrag);

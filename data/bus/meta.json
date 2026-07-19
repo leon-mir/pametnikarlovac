@@ -1,7 +1,10 @@
 {
-  "updated": "15.7.2026.",
+  "updated": "19.7.2026.",
   "source": "gis.karlovac.hr",
   "sourceUrl": "https://gis.karlovac.hr/thematic-map/bus-prijevoz",
-  "isDemo": true,
-  "note": "Demo podaci za prototip — vremena, trase i koordinate su približni i NISU stvarni vozni red. Zamjenjuju se stvarnim podacima s gis.karlovac.hr kad skripta za dohvat proradi."
+  "isDemo": false,
+  "fetchedAt": "2026-07-19T10:56:40Z",
+  "lines": 23,
+  "variants": 25,
+  "stations": 277
 }

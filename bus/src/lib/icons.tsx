@@ -123,16 +123,3 @@ export const TabInfo = ({ size = 26, ...p }: P & { size?: number }) => (
     <circle cx="12" cy="8" r=".5" fill="currentColor" />
   </svg>
 );
-
-// Logo — tlocrt karlovačke Zvijezde (šesterokraka tvrđava)
-export const StarLogo = ({ size = 34 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 100 100" fill="none" aria-hidden focusable="false">
-    <path
-      d="M50 4 L61 31 L89 26 L72 50 L89 74 L61 69 L50 96 L39 69 L11 74 L28 50 L11 26 L39 31 Z"
-      stroke="#D89F1F"
-      strokeWidth={6}
-      strokeLinejoin="round"
-    />
-    <circle cx="50" cy="50" r="7" fill="#D89F1F" />
-  </svg>
-);

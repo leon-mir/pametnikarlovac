@@ -1,8 +1,8 @@
-// Detalj linije — smjer, dolasci po stanicama za sljedeći polazak, mreža svih polazaka.
-import { useEffect, type CSSProperties } from 'react';
+// Detalj linije — varijanta (trasa) i smjer, dolasci po stanicama za odabrani polazak, svi polasci.
+import { useEffect } from 'react';
 import { useApp } from '@/state/AppState';
 import { lineById, stationById } from '@/lib/data';
-import { lineDepartTimes } from '@/lib/schedule';
+import { dirData } from '@/lib/schedule';
 import { fmt, fmtDate, SCHED_LABEL, toMin } from '@/lib/dates';
 import { Banner, LineBadge } from '@/components/common';
 import { BackButton } from '@/components/BackButton';
@@ -12,6 +12,8 @@ import { MapIcon } from '@/lib/icons';
 export function LineScreen() {
   const {
     line: lineId,
+    lineVariant,
+    setLineVariant,
     lineDir,
     setLineDir,
     schedType,
@@ -23,32 +25,28 @@ export function LineScreen() {
     setMapSelected,
     go,
   } = useApp();
-  const line = lineId != null ? lineById(lineId) : undefined;
+  const line = lineById(lineId);
   useEffect(() => {
     if (!line) go('lines', false);
   }, [line, go]);
   if (!line) return null;
-  const dir = lineDir;
-  const stops = dir === 0 ? line.stops : [...line.stops].reverse();
-  const a = stationById(line.stops[0].station)?.name ?? '';
-  const b = stationById(line.stops[line.stops.length - 1].station)?.name ?? '';
-  const sc = line.sched[schedType];
-  const total = line.stops[line.stops.length - 1].offset;
-  const now = effNow();
 
-  let nextDep: number | null = null;
-  if (sc) {
-    for (let t = toMin(sc.first); t <= toMin(sc.last); t += sc.headway) {
-      if (t >= now) {
-        nextDep = t;
-        break;
-      }
-    }
-    if (nextDep === null) nextDep = toMin(sc.first); // sutra — prikaži prvi
-  }
-  const offAt = (i: number) => (dir === 0 ? stops[i].offset : total - stops[i].offset);
-  const departTimes = lineDepartTimes(line, schedType);
-  const nextIdx = departTimes.findIndex((t) => t >= now);
+  const variant = line.variants[lineVariant] ?? line.variants[0];
+  const hasBack = !!variant.back;
+  const dir: 0 | 1 = lineDir === 1 && !hasBack ? 0 : lineDir;
+  const d = dirData(variant, dir) ?? variant.forward;
+
+  const startName = stationById(d.stops[0]?.station)?.name ?? '';
+  const endName = stationById(d.stops[d.stops.length - 1]?.station)?.name ?? '';
+  const fwdEnd = stationById(variant.forward.stops[variant.forward.stops.length - 1]?.station)?.name ?? '';
+  const bwdEnd = variant.back
+    ? (stationById(variant.back.stops[variant.back.stops.length - 1]?.station)?.name ?? '')
+    : startName;
+
+  const now = effNow();
+  const starts = (d.departures[schedType] ?? []).map(toMin);
+  const nextIdx = starts.findIndex((t) => t >= now);
+  const selStart = nextIdx >= 0 ? starts[nextIdx] : (starts[0] ?? null);
 
   return (
     <div className="wrap">
@@ -56,46 +54,62 @@ export function LineScreen() {
       {line.notice && <Banner line={line} />}
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
-        <LineBadge id={line.id} size={56} />
+        <LineBadge line={line} size={56} />
         <div>
           <h1 className="screen-title" style={{ fontSize: 'var(--pk-fs-h1)' }}>
-            {a} ↔ {b}
+            Linija {line.label}
           </h1>
           <p className="subtitle">
-            {sc
-              ? `${SCHED_LABEL[schedType]} · svakih ${sc.headway} min`
+            {starts.length
+              ? `${SCHED_LABEL[schedType]} · ${starts.length} polazaka`
               : `${SCHED_LABEL[schedType]} — ne vozi`}
+            {line.avgMinutes ? ` · ~${line.avgMinutes} min vožnje` : ''}
           </p>
         </div>
       </div>
 
+      {line.variants.length > 1 && (
+        <div>
+          <p className="field-label">Trasa</p>
+          <div className="select-box">
+            <select
+              aria-label="Odaberi trasu"
+              value={lineVariant}
+              onChange={(e) => setLineVariant(Number(e.target.value))}
+            >
+              {line.variants.map((v, i) => (
+                <option key={i} value={i}>
+                  {v.naziv}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+      )}
+
       <div className="seg" role="group" aria-label="Smjer">
         <button aria-pressed={dir === 0} onClick={() => setLineDir(0)}>
-          → {b}
+          → {fwdEnd}
         </button>
-        <button aria-pressed={dir === 1} onClick={() => setLineDir(1)}>
-          → {a}
+        <button aria-pressed={dir === 1} disabled={!hasBack} onClick={() => hasBack && setLineDir(1)}>
+          → {bwdEnd}
         </button>
       </div>
 
-      {sc && nextDep !== null ? (
+      {selStart !== null ? (
         <>
           <div className="card pad">
             <p className="eyebrow">
-              {nextDep >= now && departTimes[nextIdx] !== undefined
-                ? 'Sljedeći polazak — dolasci po stanicama'
-                : 'Prvi polazak — dolasci po stanicama'}
+              {nextIdx >= 0 ? 'Sljedeći polazak' : 'Prvi polazak'} u <strong>{fmt(selStart)}</strong> — dolasci po
+              stanicama
             </p>
-            <ul
-              className="route"
-              style={{ '--route-color': `var(--pk-line-${line.id})` } as CSSProperties}
-            >
-              {stops.map((s, i) => (
-                <li key={s.station} className={i === 0 || i === stops.length - 1 ? 'terminal' : ''}>
+            <ul className="route" style={{ ['--route-color' as string]: line.color }}>
+              {d.stops.map((s, i) => (
+                <li key={s.station + '-' + i} className={i === 0 || i === d.stops.length - 1 ? 'terminal' : ''}>
                   <span className="dot" />
                   <button className="stop-btn" onClick={() => openStation(s.station)}>
                     <span className="name">{stationById(s.station)?.name}</span>
-                    <span className="t">{fmt(nextDep + offAt(i))}</span>
+                    <span className="t">{fmt(selStart + s.offset)}</span>
                   </button>
                 </li>
               ))}
@@ -104,10 +118,13 @@ export function LineScreen() {
 
           <div className="card pad">
             <p className="eyebrow">
-              Svi polasci {isTodayView ? 'danas' : fmtDate(viewDateObj)} · {dir === 0 ? a : b}
+              Svi polasci {isTodayView ? 'danas' : fmtDate(viewDateObj)} s početne stanice ({startName})
+            </p>
+            <p className="subtitle" style={{ marginTop: 0, marginBottom: 8 }}>
+              Vrijeme kad autobus kreće u smjeru → {endName}.
             </p>
             <div className="times-grid">
-              {departTimes.map((t, i) => (
+              {starts.map((t, i) => (
                 <span key={i} className={i === nextIdx ? 'next' : t < now ? 'past' : ''}>
                   {fmt(t)}
                 </span>
@@ -117,8 +134,12 @@ export function LineScreen() {
         </>
       ) : (
         <div className="card pad empty">
-          <strong>Danas linija {line.id} ne vozi.</strong>
-          {line.sched.radni ? `Prvi polazak radnim danom u ${line.sched.radni.first}.` : ''}
+          <strong>
+            {SCHED_LABEL[schedType]} linija {line.label} ne vozi u ovom smjeru.
+          </strong>
+          {variant.forward.departures.radni?.length
+            ? ` Prvi polazak radnim danom u ${variant.forward.departures.radni[0]}.`
+            : ''}
         </div>
       )}
 
@@ -133,7 +154,7 @@ export function LineScreen() {
         <MapIcon /> Prikaži rutu na karti
       </button>
 
-      <DemoNote extra="trasa približna" />
+      <DemoNote />
     </div>
   );
 }

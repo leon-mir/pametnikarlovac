@@ -1,9 +1,16 @@
-[
-  { "label": "Pojedinačna karta (kod vozača)", "price": "1,60 €" },
-  { "label": "Pojedinačna karta (aplikacija/kiosk)", "price": "1,30 €" },
-  { "label": "Dnevna karta", "price": "4,00 €" },
-  { "label": "Mjesečna — opća", "price": "33,00 €" },
-  { "label": "Mjesečna — učenici i studenti", "price": "18,00 €" },
-  { "label": "Mjesečna — umirovljenici", "price": "15,00 €" },
-  { "label": "Osobe 65+ s prebivalištem u Karlovcu", "price": "besplatno" }
-]
+{
+  "vrijediOd": "01.07.2024.",
+  "napomena": "Cijena karte po zonama na području Grada Karlovca — javna usluga (Autotransport Karlovac d.o.o.). Karta unutar zona višeg ranga naplaćuje se po cijeni karte stvarne udaljenosti između stajališta.",
+  "pdvUkljucen": true,
+  "pdfUrl": "https://gis.karlovac.hr/static/pdf/cjenik2025.pdf",
+  "zone": [
+    { "zona": "I", "km": "0 – 5", "jednokratna": "1,00 €", "dnevna": "1,50 €", "mjesecna": "40,00 €" },
+    { "zona": "II", "km": "5,1 – 10", "jednokratna": "1,50 €", "dnevna": "2,50 €", "mjesecna": "60,00 €" },
+    { "zona": "III", "km": "10,1 – 15", "jednokratna": "2,00 €", "dnevna": "3,50 €", "mjesecna": "80,00 €" },
+    { "zona": "IV", "km": "15,1 – 20", "jednokratna": "2,50 €", "dnevna": "4,50 €", "mjesecna": "90,00 €" },
+    { "zona": "V", "km": "20,1 – 25", "jednokratna": "3,00 €", "dnevna": "5,00 €", "mjesecna": "100,00 €" },
+    { "zona": "VI", "km": "25,1 – 30", "jednokratna": "3,50 €", "dnevna": "5,50 €", "mjesecna": "110,00 €" },
+    { "zona": "VII", "km": "30,1 – 35", "jednokratna": "4,00 €", "dnevna": "6,00 €", "mjesecna": "115,00 €" }
+  ],
+  "besplatno": "Građani i umirovljenici stariji od 65 godina s prebivalištem na području Grada Karlovca ostvaruju besplatan godišnji prijevoz."
+}

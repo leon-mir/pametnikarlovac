@@ -1,4 +1,5 @@
 // Karta linija i stanica (Leaflet + OpenStreetMap). Učitava se lijeno (vidi App.tsx).
+// Trase se crtaju po stvarnoj geometriji (po cesti) iz podataka, ne pravocrtno.
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -7,27 +8,39 @@ import { LINES, STATIONS, stationById } from '@/lib/data';
 import { departuresAt } from '@/lib/schedule';
 import { DepartureRow } from '@/components/common';
 import { Back, Chevron, Close } from '@/lib/icons';
+import geometryJson from '@data/geometry.json';
+import type { GeometryMap } from '@/lib/types';
 
-function lineColor(id: number): string {
-  return getComputedStyle(document.documentElement).getPropertyValue('--pk-line-' + id).trim();
+// Geometrija trasa (po cesti) — velika, zato je u zasebnom fileu koji se bundle-a samo u
+// ovaj (lijeno učitani) chunk karte.
+const GEOMETRY = geometryJson as unknown as GeometryMap;
+
+/** Sve poligonalne trase jedne linije. Fallback: spoji stajališta ako trasa nedostaje. */
+function lineGeometries(line: (typeof LINES)[number]): [number, number][][] {
+  const g = GEOMETRY[line.id];
+  if (g && g.length) return g;
+  const out: [number, number][][] = [];
+  for (const v of line.variants) {
+    for (const d of [v.forward, v.back]) {
+      if (!d) continue;
+      const pts = d.stops
+        .map((s) => stationById(s.station))
+        .filter(Boolean)
+        .map((st) => [st!.lat, st!.lng] as [number, number]);
+      if (pts.length > 1) out.push(pts);
+    }
+  }
+  return out;
 }
 
 export function MapScreen() {
-  const {
-    mapFilter,
-    setMapFilter,
-    mapSelected,
-    setMapSelected,
-    schedType,
-    effNow,
-    openStation,
-    goBack,
-  } = useApp();
+  const { mapFilter, setMapFilter, mapSelected, setMapSelected, schedType, effNow, openStation, goBack } =
+    useApp();
 
   const elRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markers = useRef<Record<string, L.Marker>>({});
-  const routes = useRef<Record<number, L.Polyline>>({});
+  const routes = useRef<Record<string, L.Polyline[]>>({});
   const onSelect = useRef<(id: string | null) => void>(() => {});
   onSelect.current = setMapSelected;
 
@@ -36,7 +49,7 @@ export function MapScreen() {
     if (!elRef.current || mapRef.current) return;
     const map = L.map(elRef.current, { zoomControl: false, attributionControl: true }).setView(
       [45.4885, 15.564],
-      14,
+      13,
     );
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -45,17 +58,15 @@ export function MapScreen() {
     }).addTo(map);
 
     for (const line of LINES) {
-      const pts = line.stops.map((s) => {
-        const st = stationById(s.station)!;
-        return [st.lat, st.lng] as [number, number];
-      });
-      routes.current[line.id] = L.polyline(pts, {
-        color: lineColor(line.id),
-        weight: 5,
-        opacity: 0.75,
-        lineJoin: 'round',
-        lineCap: 'round',
-      }).addTo(map);
+      routes.current[line.id] = lineGeometries(line).map((pts) =>
+        L.polyline(pts, {
+          color: line.color,
+          weight: 5,
+          opacity: 0.55,
+          lineJoin: 'round',
+          lineCap: 'round',
+        }).addTo(map),
+      );
     }
 
     for (const st of STATIONS) {
@@ -63,8 +74,8 @@ export function MapScreen() {
         icon: L.divIcon({
           className: '',
           html: `<div class="stop-marker"></div>`,
-          iconSize: [22, 22],
-          iconAnchor: [11, 11],
+          iconSize: [18, 18],
+          iconAnchor: [9, 9],
         }),
         keyboard: true,
         title: st.name,
@@ -76,8 +87,6 @@ export function MapScreen() {
 
     map.on('click', () => onSelect.current(null));
     mapRef.current = map;
-
-    // Leaflet mora preračunati dimenzije nakon što view postane vidljiv
     setTimeout(() => map.invalidateSize(), 60);
 
     return () => {
@@ -92,23 +101,28 @@ export function MapScreen() {
   useEffect(() => {
     const map = mapRef.current;
     if (!map) return;
+    const all = mapFilter === '';
     for (const line of LINES) {
-      const show = mapFilter === 0 || mapFilter === line.id;
-      routes.current[line.id]?.setStyle({
-        opacity: show ? (mapFilter === 0 ? 0.55 : 0.9) : 0.08,
-        weight: show && mapFilter !== 0 ? 6 : 5,
-      });
+      const show = all || mapFilter === line.id;
+      for (const pl of routes.current[line.id] ?? [])
+        pl.setStyle({ opacity: show ? (all ? 0.5 : 0.9) : 0.06, weight: show && !all ? 6 : 5 });
     }
+    const activeLine = all ? null : LINES.find((l) => l.id === mapFilter);
     for (const st of STATIONS) {
       const onLine =
-        mapFilter === 0 ||
-        LINES.find((l) => l.id === mapFilter)?.stops.some((s) => s.station === st.id);
+        all ||
+        activeLine?.variants.some(
+          (v) =>
+            v.forward.stops.some((s) => s.station === st.id) ||
+            (v.back?.stops.some((s) => s.station === st.id) ?? false),
+        );
       const el = markers.current[st.id]?.getElement();
-      if (el) el.style.opacity = onLine ? '1' : '.25';
+      if (el) el.style.opacity = onLine ? '1' : '.2';
     }
-    if (mapFilter !== 0) {
-      const r = routes.current[mapFilter];
-      if (r) map.fitBounds(r.getBounds(), { padding: [56, 56] });
+    if (activeLine) {
+      const grp = L.featureGroup(routes.current[activeLine.id] ?? []);
+      const bounds = grp.getBounds();
+      if (bounds.isValid()) map.fitBounds(bounds, { padding: [56, 56] });
     }
   }, [mapFilter]);
 
@@ -128,7 +142,7 @@ export function MapScreen() {
 
   const selected = stationById(mapSelected);
   const now = effNow();
-  const deps = selected ? departuresAt(selected.id, schedType, now, 2) : [];
+  const deps = selected ? departuresAt(selected.id, schedType, now, 3) : [];
 
   return (
     <div className="view-map">
@@ -139,11 +153,7 @@ export function MapScreen() {
           <Back /> Natrag
         </button>
         <div className="map-filters">
-          <button
-            className="chip"
-            aria-pressed={mapFilter === 0}
-            onClick={() => setMapFilter(0)}
-          >
+          <button className="chip" aria-pressed={mapFilter === ''} onClick={() => setMapFilter('')}>
             Sve linije
           </button>
           {LINES.map((l) => (
@@ -151,18 +161,10 @@ export function MapScreen() {
               key={l.id}
               className="chip"
               aria-pressed={mapFilter === l.id}
-              aria-label={`Linija ${l.id}`}
+              aria-label={`Linija ${l.label}`}
               onClick={() => setMapFilter(l.id)}
             >
-              <span
-                style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: 99,
-                  background: `var(--pk-line-${l.id})`,
-                }}
-              />{' '}
-              {l.id}
+              <span style={{ width: 14, height: 14, borderRadius: 99, background: l.color }} /> {l.label}
             </button>
           ))}
         </div>
@@ -171,7 +173,10 @@ export function MapScreen() {
       {selected && (
         <div className="map-card">
           <div className="head">
-            <h3>{selected.name}</h3>
+            <h3>
+              {selected.name}
+              {selected.zona ? <small> · {selected.zona}</small> : null}
+            </h3>
             <button className="close" aria-label="Zatvori" onClick={() => setMapSelected(null)}>
               <Close />
             </button>

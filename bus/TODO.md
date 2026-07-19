@@ -13,25 +13,25 @@
 ## Podaci
 
 - [x] **Pipeline za dohvat radi** — `data/scripts/fetch-bus.mjs` dohvaća stvarni vozni red s
-      gis.karlovac.hr (24 linije, 171 stajalište). Uzorak: `data/bus/samples/*.real.json`.
-      GitHub Action: `.github/workflows/bus-data.yml`.
-- [ ] **Prebaciti aplikaciju na stvarne podatke** (dok se ne dovrši, ostaje demo). Prije toga:
-  - [ ] **Model voznog reda → eksplicitni polasci.** Stvarni polasci su nepravilni (npr. linija
-        102: 10:00, 11:00, 16:00, 17:00), a app trenutno pretpostavlja fiksni razmak
-        (`first/last/headway`). Prijeći na `departures` (popis), ažurirati `schedule.ts`,
-        `types.ts`, i UI ("svakih X min" → bez toga / "X polazaka"). Regenerirati demo u istom
-        formatu ili odmah ići na stvarne.
-  - [ ] **Varijante linija** (npr. linija 4 ima 522/635/701) — spojiti/označiti, ne kao zasebne.
-  - [ ] Potvrditi potpunost liste linija (usporedba s PDF-om s data.gov.hr) i uparivanje smjerova.
-  - [ ] Kad je gotovo: `meta.isDemo: false`, maknuti "prototip s demo podacima".
+      gis.karlovac.hr. GitHub Action: `.github/workflows/bus-data.yml` (dnevno, piše u `data/bus/`).
+- [x] **Aplikacija je na stvarnim podacima** (23 linije, 25 varijanti, 277 stajališta, `meta.isDemo:false`).
+  - [x] **Model → eksplicitni polasci `departures`** po tipu dana, oba smjera zasebno (svaki smjer je
+        u GIS-u zasebna linija s vlastitim voznim redom). `schedule.ts`/`types.ts` prepisani.
+  - [x] **Varijante linija** (linija 4 = 3 trase) spojene pod jednu oznaku s `variants` + biračem trase.
+  - [x] **Trasa po cesti** iz `the_geom` (zaseban `geometry.json`, učitava ga samo karta).
+  - [x] **Obavijesti** iz `privremena_regulacija` (banner grupira linije s istim tekstom).
+  - [x] **Boje** iz GIS `boja_linije` (indeks → pristupačan hex; broj se uvijek ispisuje).
 - [ ] HR blagdani: dodati godine osim 2026. u `data/bus/holidays.json` (Uskrs/Tijelovo pomični).
+- [ ] Cjenik: dohvatiti str. 3–4 službenog PDF-a (učeničke/studentske i umirovljeničke mjesečne karte)
+      i dopuniti `data/bus/prices.json`.
 
 ## Logo
 
 - [x] Službeni logo (`shared/pametni_karlovac_logo.png`) — ikone/favicon iz brand marke,
       lockup na Info ekranu.
-- [ ] Bijela/monokromatska varijanta marke za tamno zaglavlje (sad je zlatna SVG Zvijezda —
-      isti motiv, radi na tamnom). Predložiti dodavanje u `shared/`.
+- [x] Zaglavlje: prava brend marka (`shared/logo-mark.png` → `bus/public/logo-mark.png`) na bijeloj
+      pločici (dark header). Zamijenila zlatnu SVG Zvijezdu.
+- [ ] Marka je 300 KB PNG — predložiti optimiziranu/SVG verziju u `shared/` za manji header asset.
 
 ## Aplikacija
 

@@ -1,14 +1,1941 @@
 [
-  { "id": "zvijezda",  "name": "Zvijezda",           "lat": 45.4931, "lng": 15.5558 },
-  { "id": "kolodvor",  "name": "Autobusni kolodvor", "lat": 45.4893, "lng": 15.5528 },
-  { "id": "banija",    "name": "Banija",             "lat": 45.4998, "lng": 15.5479 },
-  { "id": "dubovac",   "name": "Dubovac",            "lat": 45.4965, "lng": 15.5369 },
-  { "id": "grabrik",   "name": "Grabrik",            "lat": 45.4845, "lng": 15.5445 },
-  { "id": "svarca",    "name": "Švarča",             "lat": 45.4776, "lng": 15.5541 },
-  { "id": "gaza",      "name": "Gaza",               "lat": 45.4913, "lng": 15.5641 },
-  { "id": "luscic",    "name": "Luščić",             "lat": 45.4886, "lng": 15.5314 },
-  { "id": "mostanje",  "name": "Mostanje",           "lat": 45.4979, "lng": 15.5804 },
-  { "id": "turanj",    "name": "Turanj",             "lat": 45.4776, "lng": 15.5675 },
-  { "id": "mekusje",   "name": "Mekušje",            "lat": 45.4832, "lng": 15.5904 },
-  { "id": "kamensko",  "name": "Kamensko",           "lat": 45.4699, "lng": 15.6002 }
+  {
+    "id": "1",
+    "name": "Gornje Mekušje (Spomenik)",
+    "zona": "Zona 1",
+    "lat": 45.482937,
+    "lng": 15.580989
+  },
+  {
+    "id": "2",
+    "name": "Gornje Mekušje (Klanac)",
+    "zona": "Zona 1",
+    "lat": 45.483377,
+    "lng": 15.575552
+  },
+  {
+    "id": "3",
+    "name": "Zagrad",
+    "zona": "Zona 1",
+    "lat": 45.492619,
+    "lng": 15.516946
+  },
+  {
+    "id": "4",
+    "name": "Vučjak (Kalvarija)",
+    "zona": "Zona 1",
+    "lat": 45.494941,
+    "lng": 15.50938
+  },
+  {
+    "id": "5",
+    "name": "Vučjak",
+    "zona": "Zona 1",
+    "lat": 45.49327,
+    "lng": 15.503867
+  },
+  {
+    "id": "6",
+    "name": "Skakavac (Škola)",
+    "zona": "Zona 4",
+    "lat": 45.463,
+    "lng": 15.714267
+  },
+  {
+    "id": "7",
+    "name": "Skakavac (Škola)",
+    "zona": "Zona 4",
+    "lat": 45.462936,
+    "lng": 15.715005
+  },
+  {
+    "id": "8",
+    "name": "Skakavac (Brežani)",
+    "zona": "Zona 4",
+    "lat": 45.458065,
+    "lng": 15.695064
+  },
+  {
+    "id": "9",
+    "name": "Skakavac (Banski Moravci)",
+    "zona": "Zona 4",
+    "lat": 45.464704,
+    "lng": 15.740602
+  },
+  {
+    "id": "10",
+    "name": "Vučjak (Furači)",
+    "zona": "Zona 1",
+    "lat": 45.488894,
+    "lng": 15.499949
+  },
+  {
+    "id": "12",
+    "name": "Dubovac (Groblje)",
+    "zona": "Zona 1",
+    "lat": 45.492915,
+    "lng": 15.531294
+  },
+  {
+    "id": "13",
+    "name": "Vučjak (Mejaški-Pogačići)",
+    "zona": "Zona 1",
+    "lat": 45.485832,
+    "lng": 15.494596
+  },
+  {
+    "id": "14",
+    "name": "Zagrad",
+    "zona": "Zona 1",
+    "lat": 45.49311,
+    "lng": 15.522807
+  },
+  {
+    "id": "15",
+    "name": "Rakovac",
+    "zona": "Zona 1",
+    "lat": 45.482647,
+    "lng": 15.557225
+  },
+  {
+    "id": "16",
+    "name": "Lemić brdo",
+    "zona": "Zona 2",
+    "lat": 45.471063,
+    "lng": 15.618727
+  },
+  {
+    "id": "17",
+    "name": "Sajevac II",
+    "zona": "Zona 1",
+    "lat": 45.466656,
+    "lng": 15.587543
+  },
+  {
+    "id": "18",
+    "name": "Banija (Naplatne)",
+    "zona": "Zona 1",
+    "lat": 45.513002,
+    "lng": 15.546507
+  },
+  {
+    "id": "19",
+    "name": "Sajevac II",
+    "zona": "Zona 1",
+    "lat": 45.466765,
+    "lng": 15.588072
+  },
+  {
+    "id": "20",
+    "name": "Banija (Selce)",
+    "zona": "Zona 1",
+    "lat": 45.508856,
+    "lng": 15.548035
+  },
+  {
+    "id": "21",
+    "name": "Korzo",
+    "zona": "Zona 1",
+    "lat": 45.493861,
+    "lng": 15.551452
+  },
+  {
+    "id": "22",
+    "name": "Lemić brdo",
+    "zona": "Zona 2",
+    "lat": 45.471552,
+    "lng": 15.61797
+  },
+  {
+    "id": "23",
+    "name": "Mostanje II",
+    "zona": "Zona 1",
+    "lat": 45.470408,
+    "lng": 15.559173
+  },
+  {
+    "id": "24",
+    "name": "Domobranska",
+    "zona": "Zona 1",
+    "lat": 45.487707,
+    "lng": 15.55502
+  },
+  {
+    "id": "25",
+    "name": "Velika Jelsa (Brdo)",
+    "zona": "Zona 1",
+    "lat": 45.533297,
+    "lng": 15.528215
+  },
+  {
+    "id": "26",
+    "name": "Domobranska",
+    "zona": "Zona 1",
+    "lat": 45.487373,
+    "lng": 15.555132
+  },
+  {
+    "id": "27",
+    "name": "Turanj (Okretište)",
+    "zona": "Zona 1",
+    "lat": 45.462995,
+    "lng": 15.568166
+  },
+  {
+    "id": "28",
+    "name": "Rakovac",
+    "zona": "Zona 1",
+    "lat": 45.482971,
+    "lng": 15.556877
+  },
+  {
+    "id": "30",
+    "name": "Mostanje I",
+    "zona": "Zona 1",
+    "lat": 45.474955,
+    "lng": 15.559532
+  },
+  {
+    "id": "31",
+    "name": "Mostanje II",
+    "zona": "Zona 1",
+    "lat": 45.469985,
+    "lng": 15.558812
+  },
+  {
+    "id": "32",
+    "name": "Skakavac (Vojska)",
+    "zona": "Zona 4",
+    "lat": 45.449104,
+    "lng": 15.681631
+  },
+  {
+    "id": "33",
+    "name": "Sajevac I",
+    "zona": "Zona 1",
+    "lat": 45.464045,
+    "lng": 15.580821
+  },
+  {
+    "id": "34",
+    "name": "Sajevac I",
+    "zona": "Zona 1",
+    "lat": 45.463953,
+    "lng": 15.580153
+  },
+  {
+    "id": "35",
+    "name": "Kamensko",
+    "zona": "Zona 2",
+    "lat": 45.475695,
+    "lng": 15.606328
+  },
+  {
+    "id": "36",
+    "name": "Kamensko",
+    "zona": "Zona 2",
+    "lat": 45.475015,
+    "lng": 15.60564
+  },
+  {
+    "id": "37",
+    "name": "Skakavac (Vojska)",
+    "zona": "Zona 4",
+    "lat": 45.448975,
+    "lng": 15.682423
+  },
+  {
+    "id": "38",
+    "name": "Korzo (Pošta)",
+    "zona": "Zona 1",
+    "lat": 45.494597,
+    "lng": 15.552736
+  },
+  {
+    "id": "39",
+    "name": "Banija (Škola)",
+    "zona": "Zona 1",
+    "lat": 45.499265,
+    "lng": 15.5497
+  },
+  {
+    "id": "40",
+    "name": "Logorište (Kružni tok)",
+    "zona": "Zona 1",
+    "lat": 45.465134,
+    "lng": 15.561184
+  },
+  {
+    "id": "41",
+    "name": "Popović Brdo II",
+    "zona": "Zona 3",
+    "lat": 45.462787,
+    "lng": 15.643137
+  },
+  {
+    "id": "42",
+    "name": "Popović Brdo II",
+    "zona": "Zona 3",
+    "lat": 45.462422,
+    "lng": 15.64346
+  },
+  {
+    "id": "43",
+    "name": "Logorište (Kružni tok)",
+    "zona": "Zona 1",
+    "lat": 45.464185,
+    "lng": 15.562896
+  },
+  {
+    "id": "44",
+    "name": "Banija (Škola)",
+    "zona": "Zona 1",
+    "lat": 45.500249,
+    "lng": 15.549847
+  },
+  {
+    "id": "45",
+    "name": "Banija (Selce)",
+    "zona": "Zona 1",
+    "lat": 45.508903,
+    "lng": 15.548252
+  },
+  {
+    "id": "46",
+    "name": "Banija (Naplatne)",
+    "zona": "Zona 1",
+    "lat": 45.51218,
+    "lng": 15.547084
+  },
+  {
+    "id": "47",
+    "name": "Švarča (Bolnica)",
+    "zona": "Zona 1",
+    "lat": 45.477557,
+    "lng": 15.540138
+  },
+  {
+    "id": "48",
+    "name": "Senjska",
+    "zona": "Zona 1",
+    "lat": 45.481138,
+    "lng": 15.546247
+  },
+  {
+    "id": "51",
+    "name": "Mala Švarča (Spomenik)",
+    "zona": "Zona 1",
+    "lat": 45.461345,
+    "lng": 15.539111
+  },
+  {
+    "id": "52",
+    "name": "Drežnik (Bokeljska)",
+    "zona": "Zona 1",
+    "lat": 45.507288,
+    "lng": 15.531056
+  },
+  {
+    "id": "53",
+    "name": "Donje Pokupje (Kanal Kupa)",
+    "zona": "Zona 1",
+    "lat": 45.543144,
+    "lng": 15.537001
+  },
+  {
+    "id": "54",
+    "name": "Mahično (Okretište)",
+    "zona": "Zona 2",
+    "lat": 45.558959,
+    "lng": 15.522027
+  },
+  {
+    "id": "55",
+    "name": "Šišljavić",
+    "zona": "Zona 4",
+    "lat": 45.519377,
+    "lng": 15.759366
+  },
+  {
+    "id": "56",
+    "name": "Mala Jelsa (Raskrižje)",
+    "zona": "Zona 1",
+    "lat": 45.512732,
+    "lng": 15.501945
+  },
+  {
+    "id": "58",
+    "name": "Tuškani (DVD)",
+    "zona": "Zona 2",
+    "lat": 45.568321,
+    "lng": 15.559339
+  },
+  {
+    "id": "59",
+    "name": "Kobilić (Okretište)",
+    "zona": "Zona 2",
+    "lat": 45.48098,
+    "lng": 15.624954
+  },
+  {
+    "id": "61",
+    "name": "Knez Gorica",
+    "zona": "Zona 3",
+    "lat": 45.430874,
+    "lng": 15.65898
+  },
+  {
+    "id": "62",
+    "name": "Gornje Stative (Most)",
+    "zona": "Zona 2",
+    "lat": 45.515585,
+    "lng": 15.4746
+  },
+  {
+    "id": "63",
+    "name": "Zadobarje (Okretište)",
+    "zona": "Zona 2",
+    "lat": 45.530349,
+    "lng": 15.484481
+  },
+  {
+    "id": "65",
+    "name": "Gornji Sjeničak (Okretište)",
+    "zona": "Zona 7",
+    "lat": 45.411679,
+    "lng": 15.802915
+  },
+  {
+    "id": "66",
+    "name": "Utinja (Dakići)",
+    "zona": "Zona 5",
+    "lat": 45.419949,
+    "lng": 15.734338
+  },
+  {
+    "id": "67",
+    "name": "Slunjski Moravci",
+    "zona": "Zona 4",
+    "lat": 45.450783,
+    "lng": 15.706707
+  },
+  {
+    "id": "70",
+    "name": "Jamadolska (Streljana)",
+    "zona": "Zona 1",
+    "lat": 45.487883,
+    "lng": 15.537425
+  },
+  {
+    "id": "71",
+    "name": "Kranjčevićeva",
+    "zona": "Zona 1",
+    "lat": 45.48958,
+    "lng": 15.539457
+  },
+  {
+    "id": "72",
+    "name": "Dubovac (Dom zdravlja)",
+    "zona": "Zona 1",
+    "lat": 45.491672,
+    "lng": 15.541658
+  },
+  {
+    "id": "74",
+    "name": "Tržnica",
+    "zona": "Zona 1",
+    "lat": 45.488496,
+    "lng": 15.546951
+  },
+  {
+    "id": "75",
+    "name": "Krešimirova (Kružni tok)",
+    "zona": "Zona 1",
+    "lat": 45.482453,
+    "lng": 15.549448
+  },
+  {
+    "id": "76",
+    "name": "Zvonimirova",
+    "zona": "Zona 1",
+    "lat": 45.481182,
+    "lng": 15.553753
+  },
+  {
+    "id": "79",
+    "name": "Luščić",
+    "zona": "Zona 1",
+    "lat": 45.483211,
+    "lng": 15.546321
+  },
+  {
+    "id": "81",
+    "name": "Sud",
+    "zona": "Zona 1",
+    "lat": 45.487872,
+    "lng": 15.546723
+  },
+  {
+    "id": "82",
+    "name": "Dubovac (Dom zdravlja)",
+    "zona": "Zona 1",
+    "lat": 45.491957,
+    "lng": 15.540763
+  },
+  {
+    "id": "84",
+    "name": "Jamadolska (Streljana)",
+    "zona": "Zona 1",
+    "lat": 45.486703,
+    "lng": 15.537148
+  },
+  {
+    "id": "85",
+    "name": "Jamadol (Groblje)",
+    "zona": "Zona 1",
+    "lat": 45.485427,
+    "lng": 15.533744
+  },
+  {
+    "id": "86",
+    "name": "Zastinje (Bunar)",
+    "zona": "Zona 2",
+    "lat": 45.429929,
+    "lng": 15.569967
+  },
+  {
+    "id": "87",
+    "name": "Kablar (Dom)",
+    "zona": "Zona 5",
+    "lat": 45.480836,
+    "lng": 15.771561
+  },
+  {
+    "id": "88",
+    "name": "Rečica Donja (Okretište)",
+    "zona": "Zona 3",
+    "lat": 45.483435,
+    "lng": 15.668696
+  },
+  {
+    "id": "89",
+    "name": "Rečica I",
+    "zona": "Zona 3",
+    "lat": 45.504422,
+    "lng": 15.66343
+  },
+  {
+    "id": "90",
+    "name": "Zagrebačka (Ilovac)",
+    "zona": "Zona 1",
+    "lat": 45.519146,
+    "lng": 15.54529
+  },
+  {
+    "id": "91",
+    "name": "Zagrebačka (Ilovac)",
+    "zona": "Zona 1",
+    "lat": 45.520133,
+    "lng": 15.546802
+  },
+  {
+    "id": "92",
+    "name": "Zagrebačka (Orlovačka)",
+    "zona": "Zona 1",
+    "lat": 45.526555,
+    "lng": 15.560185
+  },
+  {
+    "id": "93",
+    "name": "Zagrebačka (Orlovačka)",
+    "zona": "Zona 1",
+    "lat": 45.526259,
+    "lng": 15.559567
+  },
+  {
+    "id": "94",
+    "name": "Donje Pokupje",
+    "zona": "Zona 1",
+    "lat": 45.533105,
+    "lng": 15.541822
+  },
+  {
+    "id": "95",
+    "name": "Donje Pokupje (Kanal Kupa)",
+    "zona": "Zona 1",
+    "lat": 45.542714,
+    "lng": 15.5369
+  },
+  {
+    "id": "97",
+    "name": "Mahično (Crkva)",
+    "zona": "Zona 2",
+    "lat": 45.551548,
+    "lng": 15.535937
+  },
+  {
+    "id": "98",
+    "name": "Mahično (Crkva)",
+    "zona": "Zona 2",
+    "lat": 45.551303,
+    "lng": 15.536036
+  },
+  {
+    "id": "99",
+    "name": "Žumberačka",
+    "zona": "Zona 1",
+    "lat": 45.501092,
+    "lng": 15.524017
+  },
+  {
+    "id": "100",
+    "name": "Žumberačka",
+    "zona": "Zona 1",
+    "lat": 45.501395,
+    "lng": 15.523984
+  },
+  {
+    "id": "101",
+    "name": "Donja Jelsa (škola)",
+    "zona": "Zona 1",
+    "lat": 45.518002,
+    "lng": 15.522396
+  },
+  {
+    "id": "102",
+    "name": "Donja Jelsa (škola)",
+    "zona": "Zona 1",
+    "lat": 45.518692,
+    "lng": 15.522597
+  },
+  {
+    "id": "104",
+    "name": "Gradac",
+    "zona": "Zona 1",
+    "lat": 45.507959,
+    "lng": 15.566554
+  },
+  {
+    "id": "105",
+    "name": "Gradac",
+    "zona": "Zona 1",
+    "lat": 45.508061,
+    "lng": 15.565999
+  },
+  {
+    "id": "107",
+    "name": "Švarča DC3",
+    "zona": "Zona 1",
+    "lat": 45.472181,
+    "lng": 15.540639
+  },
+  {
+    "id": "109",
+    "name": "Rotor Švarča",
+    "zona": "Zona 1",
+    "lat": 45.476096,
+    "lng": 15.544596
+  },
+  {
+    "id": "110",
+    "name": "Senjska",
+    "zona": "Zona 1",
+    "lat": 45.481794,
+    "lng": 15.546706
+  },
+  {
+    "id": "111",
+    "name": "Izidora Kršnjavoga",
+    "zona": "Zona 1",
+    "lat": 45.483433,
+    "lng": 15.556239
+  },
+  {
+    "id": "112",
+    "name": "Rakovac (most)",
+    "zona": "Zona 1",
+    "lat": 45.483364,
+    "lng": 15.557595
+  },
+  {
+    "id": "113",
+    "name": "Jelaši (Goljaki Turanski)",
+    "zona": "Zona 1",
+    "lat": 45.451401,
+    "lng": 15.575283
+  },
+  {
+    "id": "114",
+    "name": "Vodostaj",
+    "zona": "Zona 1",
+    "lat": 45.501741,
+    "lng": 15.577062
+  },
+  {
+    "id": "116",
+    "name": "Donje Mekušje",
+    "zona": "Zona 2",
+    "lat": 45.491358,
+    "lng": 15.593566
+  },
+  {
+    "id": "117",
+    "name": "Husje",
+    "zona": "Zona 2",
+    "lat": 45.484211,
+    "lng": 15.598226
+  },
+  {
+    "id": "118",
+    "name": "Dubovac (Pivovara)",
+    "zona": "Zona 1",
+    "lat": 45.49662,
+    "lng": 15.531436
+  },
+  {
+    "id": "121",
+    "name": "Kaštel",
+    "zona": "Zona 1",
+    "lat": 45.526354,
+    "lng": 15.535711
+  },
+  {
+    "id": "123",
+    "name": "Mahično-pruga",
+    "zona": "Zona 2",
+    "lat": 45.556866,
+    "lng": 15.527611
+  },
+  {
+    "id": "125",
+    "name": "Goršćaki (Škola)",
+    "zona": "Zona 2",
+    "lat": 45.57279,
+    "lng": 15.54714
+  },
+  {
+    "id": "126",
+    "name": "Drežnik (Most grada Alesandrije)",
+    "zona": "Zona 1",
+    "lat": 45.496493,
+    "lng": 15.541072
+  },
+  {
+    "id": "128",
+    "name": "Vrtić Grabrik",
+    "zona": "Zona 1",
+    "lat": 45.483441,
+    "lng": 15.549184
+  },
+  {
+    "id": "129",
+    "name": "Zvonimirova",
+    "zona": "Zona 1",
+    "lat": 45.480815,
+    "lng": 15.554028
+  },
+  {
+    "id": "130",
+    "name": "Orlovac II",
+    "zona": "Zona 1",
+    "lat": 45.525732,
+    "lng": 15.585543
+  },
+  {
+    "id": "131",
+    "name": "Gornje Stative (Most)",
+    "zona": "Zona 2",
+    "lat": 45.515049,
+    "lng": 15.474913
+  },
+  {
+    "id": "132",
+    "name": "Borlin (Žumberačka)",
+    "zona": "Zona 1",
+    "lat": 45.500616,
+    "lng": 15.522866
+  },
+  {
+    "id": "133",
+    "name": "Slunjska Selnica",
+    "zona": "Zona 4",
+    "lat": 45.49822,
+    "lng": 15.717568
+  },
+  {
+    "id": "134",
+    "name": "Ribari",
+    "zona": "Zona 4",
+    "lat": 45.488673,
+    "lng": 15.697862
+  },
+  {
+    "id": "135",
+    "name": "Goljaki Turanski",
+    "zona": "Zona 2",
+    "lat": 45.446088,
+    "lng": 15.570182
+  },
+  {
+    "id": "136",
+    "name": "Gornje Mekušje (Klanac)",
+    "zona": "Zona 1",
+    "lat": 45.483391,
+    "lng": 15.575843
+  },
+  {
+    "id": "137",
+    "name": "Skakavac (Trgovina)",
+    "zona": "Zona 4",
+    "lat": 45.45042,
+    "lng": 15.686951
+  },
+  {
+    "id": "138",
+    "name": "Skakavac (Trgovina)",
+    "zona": "Zona 3",
+    "lat": 45.450589,
+    "lng": 15.687915
+  },
+  {
+    "id": "139",
+    "name": "Skakavac (Slunjski Moravci)",
+    "zona": "Zona 3",
+    "lat": 45.454269,
+    "lng": 15.693611
+  },
+  {
+    "id": "140",
+    "name": "Skakavac (Slunjski Moravci)",
+    "zona": "Zona 4",
+    "lat": 45.454249,
+    "lng": 15.69346
+  },
+  {
+    "id": "141",
+    "name": "13. Srpnja (ŠRC)",
+    "zona": "Zona 1",
+    "lat": 45.482618,
+    "lng": 15.563539
+  },
+  {
+    "id": "142",
+    "name": "13. Srpnja (ŠRC)",
+    "zona": "Zona 1",
+    "lat": 45.482955,
+    "lng": 15.564638
+  },
+  {
+    "id": "143",
+    "name": "Aquatika",
+    "zona": "Zona 1",
+    "lat": 45.485447,
+    "lng": 15.56291
+  },
+  {
+    "id": "144",
+    "name": "Popović Brdo I",
+    "zona": "Zona 3",
+    "lat": 45.466912,
+    "lng": 15.635915
+  },
+  {
+    "id": "145",
+    "name": "Ladvenjak",
+    "zona": "Zona 3",
+    "lat": 45.418162,
+    "lng": 15.588585
+  },
+  {
+    "id": "146",
+    "name": "Bašćinska (Škola)",
+    "zona": "Zona 1",
+    "lat": 45.472319,
+    "lng": 15.549971
+  },
+  {
+    "id": "147",
+    "name": "Bašćinska (Škola)",
+    "zona": "Zona 1",
+    "lat": 45.472581,
+    "lng": 15.549502
+  },
+  {
+    "id": "148",
+    "name": "Riječka (Mokrice)",
+    "zona": "Zona 1",
+    "lat": 45.468261,
+    "lng": 15.534117
+  },
+  {
+    "id": "150",
+    "name": "Mala Švarča (Zona)",
+    "zona": "Zona 1",
+    "lat": 45.46262,
+    "lng": 15.532843
+  },
+  {
+    "id": "151",
+    "name": "Borlin (Žumberačka)",
+    "zona": "Zona 1",
+    "lat": 45.499921,
+    "lng": 15.524903
+  },
+  {
+    "id": "152",
+    "name": "Šestićeva",
+    "zona": "Zona 1",
+    "lat": 45.487501,
+    "lng": 15.542827
+  },
+  {
+    "id": "153",
+    "name": "Šestićeva",
+    "zona": "Zona 1",
+    "lat": 45.487233,
+    "lng": 15.542529
+  },
+  {
+    "id": "154",
+    "name": "Branimirova",
+    "zona": "Zona 1",
+    "lat": 45.479561,
+    "lng": 15.548728
+  },
+  {
+    "id": "156",
+    "name": "Slunjska Brda",
+    "zona": "Zona 2",
+    "lat": 45.438429,
+    "lng": 15.587367
+  },
+  {
+    "id": "157",
+    "name": "Slunjska Brda",
+    "zona": "Zona 2",
+    "lat": 45.437766,
+    "lng": 15.588309
+  },
+  {
+    "id": "158",
+    "name": "Cerovac Vukmanićki (Škola)",
+    "zona": "Zona 2",
+    "lat": 45.427821,
+    "lng": 15.605462
+  },
+  {
+    "id": "159",
+    "name": "Cerovac Vukmanićki (Škola)",
+    "zona": "Zona 2",
+    "lat": 45.426907,
+    "lng": 15.605748
+  },
+  {
+    "id": "160",
+    "name": "Cerovac Vukmanićki (Kod mosta)",
+    "zona": "Zona 2",
+    "lat": 45.412668,
+    "lng": 15.610195
+  },
+  {
+    "id": "161",
+    "name": "Cerovac Vukmanićki (Kod mosta)",
+    "zona": "Zona 2",
+    "lat": 45.411792,
+    "lng": 15.610693
+  },
+  {
+    "id": "162",
+    "name": "Tušilović III",
+    "zona": "Zona 3",
+    "lat": 45.38837,
+    "lng": 15.61465
+  },
+  {
+    "id": "163",
+    "name": "Tušilović III",
+    "zona": "Zona 3",
+    "lat": 45.386906,
+    "lng": 15.614025
+  },
+  {
+    "id": "164",
+    "name": "Vukmanić 1",
+    "zona": "Zona 3",
+    "lat": 45.423454,
+    "lng": 15.645835
+  },
+  {
+    "id": "165",
+    "name": "Trebinja",
+    "zona": "Zona 3",
+    "lat": 45.439427,
+    "lng": 15.680385
+  },
+  {
+    "id": "166",
+    "name": "Dubovac (Groblje)",
+    "zona": "Zona 1",
+    "lat": 45.49282,
+    "lng": 15.531736
+  },
+  {
+    "id": "167",
+    "name": "Nazorova",
+    "zona": "Zona 1",
+    "lat": 45.490165,
+    "lng": 15.549319
+  },
+  {
+    "id": "168",
+    "name": "Banija (Žitoproizvod)",
+    "zona": "Zona 1",
+    "lat": 45.503948,
+    "lng": 15.549671
+  },
+  {
+    "id": "169",
+    "name": "Banija (Žitoproizvod)",
+    "zona": "Zona 1",
+    "lat": 45.504322,
+    "lng": 15.549951
+  },
+  {
+    "id": "170",
+    "name": "Željeznički",
+    "zona": "Zona 1",
+    "lat": 45.50018,
+    "lng": 15.545512
+  },
+  {
+    "id": "171",
+    "name": "Zagrebačka (Pojatno)",
+    "zona": "Zona 1",
+    "lat": 45.534442,
+    "lng": 15.568197
+  },
+  {
+    "id": "173",
+    "name": "Jelaši (Benzinska)",
+    "zona": "Zona 2",
+    "lat": 45.445341,
+    "lng": 15.58303
+  },
+  {
+    "id": "174",
+    "name": "Jelaši (Benzinska)",
+    "zona": "Zona 2",
+    "lat": 45.444031,
+    "lng": 15.584606
+  },
+  {
+    "id": "175",
+    "name": "Borlin (Tičarnica)",
+    "zona": "Zona 1",
+    "lat": 45.503428,
+    "lng": 15.517208
+  },
+  {
+    "id": "176",
+    "name": "Borlin (Gornja Jelsa)",
+    "zona": "Zona 1",
+    "lat": 45.508352,
+    "lng": 15.511716
+  },
+  {
+    "id": "177",
+    "name": "Zadobarje I",
+    "zona": "Zona 2",
+    "lat": 45.524534,
+    "lng": 15.50083
+  },
+  {
+    "id": "178",
+    "name": "Gornje Stative",
+    "zona": "Zona 2",
+    "lat": 45.511209,
+    "lng": 15.491638
+  },
+  {
+    "id": "179",
+    "name": "Gornje Stative",
+    "zona": "Zona 2",
+    "lat": 45.511377,
+    "lng": 15.490789
+  },
+  {
+    "id": "180",
+    "name": "Popović Brdo (Brođani)",
+    "zona": "Zona 3",
+    "lat": 45.458023,
+    "lng": 15.660065
+  },
+  {
+    "id": "181",
+    "name": "Banska Selnica",
+    "zona": "Zona 4",
+    "lat": 45.502476,
+    "lng": 15.729627
+  },
+  {
+    "id": "182",
+    "name": "Kablar I",
+    "zona": "Zona 5",
+    "lat": 45.489369,
+    "lng": 15.740813
+  },
+  {
+    "id": "183",
+    "name": "Kablar II",
+    "zona": "Zona 5",
+    "lat": 45.480922,
+    "lng": 15.752193
+  },
+  {
+    "id": "184",
+    "name": "Banski Moravci",
+    "zona": "Zona 4",
+    "lat": 45.462159,
+    "lng": 15.752713
+  },
+  {
+    "id": "186",
+    "name": "Rečica (D36)",
+    "zona": "Zona 3",
+    "lat": 45.510336,
+    "lng": 15.664233
+  },
+  {
+    "id": "188",
+    "name": "Luka Pokupska",
+    "zona": "Zona 3",
+    "lat": 45.514524,
+    "lng": 15.67532
+  },
+  {
+    "id": "190",
+    "name": "Zamršje",
+    "zona": "Zona 3",
+    "lat": 45.511176,
+    "lng": 15.695326
+  },
+  {
+    "id": "192",
+    "name": "Karasi",
+    "zona": "Zona 3",
+    "lat": 45.513727,
+    "lng": 15.710308
+  },
+  {
+    "id": "193",
+    "name": "Blatnica",
+    "zona": "Zona 4",
+    "lat": 45.514177,
+    "lng": 15.727138
+  },
+  {
+    "id": "196",
+    "name": "Koritinja",
+    "zona": "Zona 4",
+    "lat": 45.519483,
+    "lng": 15.74036
+  },
+  {
+    "id": "197",
+    "name": "Rečica III",
+    "zona": "Zona 3",
+    "lat": 45.4917,
+    "lng": 15.664507
+  },
+  {
+    "id": "198",
+    "name": "Selište (Ladvenjak)",
+    "zona": "Zona 3",
+    "lat": 45.41015,
+    "lng": 15.596846
+  },
+  {
+    "id": "199",
+    "name": "Selce (Gradac)",
+    "zona": "Zona 1",
+    "lat": 45.511348,
+    "lng": 15.55916
+  },
+  {
+    "id": "201",
+    "name": "Sisačka",
+    "zona": "Zona 1",
+    "lat": 45.513711,
+    "lng": 15.566393
+  },
+  {
+    "id": "203",
+    "name": "Orlovac I",
+    "zona": "Zona 1",
+    "lat": 45.522973,
+    "lng": 15.575495
+  },
+  {
+    "id": "204",
+    "name": "Okić",
+    "zona": "Zona 4",
+    "lat": 45.374818,
+    "lng": 15.651564
+  },
+  {
+    "id": "205",
+    "name": "Okić",
+    "zona": "Zona 4",
+    "lat": 45.374843,
+    "lng": 15.651781
+  },
+  {
+    "id": "206",
+    "name": "Brezova Glava I",
+    "zona": "Zona 4",
+    "lat": 45.377092,
+    "lng": 15.625356
+  },
+  {
+    "id": "207",
+    "name": "Brezova Glava I",
+    "zona": "Zona 4",
+    "lat": 45.376972,
+    "lng": 15.624725
+  },
+  {
+    "id": "208",
+    "name": "Tušilović (Škola)",
+    "zona": "Zona 4",
+    "lat": 45.381386,
+    "lng": 15.612016
+  },
+  {
+    "id": "209",
+    "name": "Tušilović (Škola)",
+    "zona": "Zona 4",
+    "lat": 45.382548,
+    "lng": 15.612701
+  },
+  {
+    "id": "210",
+    "name": "Tušilović I",
+    "zona": "Zona 3",
+    "lat": 45.404917,
+    "lng": 15.613353
+  },
+  {
+    "id": "211",
+    "name": "Tušilović I",
+    "zona": "Zona 3",
+    "lat": 45.40352,
+    "lng": 15.612779
+  },
+  {
+    "id": "212",
+    "name": "Jelaši (Goljaki Turanski)",
+    "zona": "Zona 1",
+    "lat": 45.451121,
+    "lng": 15.575645
+  },
+  {
+    "id": "213",
+    "name": "Selce (Gradac)",
+    "zona": "Zona 1",
+    "lat": 45.510879,
+    "lng": 15.560825
+  },
+  {
+    "id": "214",
+    "name": "Borlin (Tičarnica)",
+    "zona": "Zona 1",
+    "lat": 45.503091,
+    "lng": 15.517092
+  },
+  {
+    "id": "215",
+    "name": "Vučjak",
+    "zona": "Zona 1",
+    "lat": 45.492738,
+    "lng": 15.503503
+  },
+  {
+    "id": "216",
+    "name": "Vučjak (Furači)",
+    "zona": "Zona 1",
+    "lat": 45.488727,
+    "lng": 15.499825
+  },
+  {
+    "id": "217",
+    "name": "Vučjak (Mejaški-Pogačići)",
+    "zona": "Zona 1",
+    "lat": 45.485402,
+    "lng": 15.49448
+  },
+  {
+    "id": "218",
+    "name": "Zadobarje II",
+    "zona": "Zona 2",
+    "lat": 45.529002,
+    "lng": 15.491147
+  },
+  {
+    "id": "219",
+    "name": "Zadobarje II",
+    "zona": "Zona 2",
+    "lat": 45.528622,
+    "lng": 15.493653
+  },
+  {
+    "id": "221",
+    "name": "Mala Jelsa",
+    "zona": "Zona 1",
+    "lat": 45.518078,
+    "lng": 15.501696
+  },
+  {
+    "id": "222",
+    "name": "Mala Jelsa",
+    "zona": "Zona 1",
+    "lat": 45.518596,
+    "lng": 15.501753
+  },
+  {
+    "id": "223",
+    "name": "Gažanski Trg",
+    "zona": "Zona 1",
+    "lat": 45.496229,
+    "lng": 15.557858
+  },
+  {
+    "id": "228",
+    "name": "Donja Jelsa (Trgovina)",
+    "zona": "Zona 1",
+    "lat": 45.524327,
+    "lng": 15.524072
+  },
+  {
+    "id": "229",
+    "name": "Donja Jelsa (Trgovina)",
+    "zona": "Zona 1",
+    "lat": 45.523308,
+    "lng": 15.523859
+  },
+  {
+    "id": "230",
+    "name": "Kranjčevićeva",
+    "zona": "Zona 1",
+    "lat": 45.489948,
+    "lng": 15.539252
+  },
+  {
+    "id": "231",
+    "name": "Branimirova",
+    "zona": "Zona 1",
+    "lat": 45.479658,
+    "lng": 15.550554
+  },
+  {
+    "id": "232",
+    "name": "Mihanovićeva",
+    "zona": "Zona 1",
+    "lat": 45.503948,
+    "lng": 15.546184
+  },
+  {
+    "id": "234",
+    "name": "Logorište (Zona)",
+    "zona": null,
+    "lat": 45.454448,
+    "lng": 15.561557
+  },
+  {
+    "id": "235",
+    "name": "Dubovac (Pivovara)",
+    "zona": "Zona 1",
+    "lat": 45.497758,
+    "lng": 15.529608
+  },
+  {
+    "id": "236",
+    "name": "Gažanski Trg",
+    "zona": "Zona 1",
+    "lat": 45.496871,
+    "lng": 15.557551
+  },
+  {
+    "id": "237",
+    "name": "Hrvatske bratske zajednice",
+    "zona": "Zona 1",
+    "lat": 45.499488,
+    "lng": 15.560131
+  },
+  {
+    "id": "238",
+    "name": "Hrvatske bratske zajednice",
+    "zona": "Zona 1",
+    "lat": 45.499994,
+    "lng": 15.560759
+  },
+  {
+    "id": "239",
+    "name": "Gaza škola (Prirodoslovna)",
+    "zona": "Zona 1",
+    "lat": 45.502147,
+    "lng": 15.559542
+  },
+  {
+    "id": "240",
+    "name": "Donje Pokupje",
+    "zona": "Zona 1",
+    "lat": 45.532372,
+    "lng": 15.542186
+  },
+  {
+    "id": "241",
+    "name": "Ilovac (Tehnički)",
+    "zona": "Zona 1",
+    "lat": 45.520099,
+    "lng": 15.545064
+  },
+  {
+    "id": "242",
+    "name": "Zadobarje I",
+    "zona": "Zona 2",
+    "lat": 45.524865,
+    "lng": 15.499984
+  },
+  {
+    "id": "243",
+    "name": "Donja Jelsa",
+    "zona": "Zona 1",
+    "lat": 45.508371,
+    "lng": 15.51888
+  },
+  {
+    "id": "244",
+    "name": "Donja Jelsa",
+    "zona": "Zona 1",
+    "lat": 45.507916,
+    "lng": 15.518947
+  },
+  {
+    "id": "245",
+    "name": "Logorište",
+    "zona": "Zona 1",
+    "lat": 45.459246,
+    "lng": 15.560679
+  },
+  {
+    "id": "246",
+    "name": "Logorište",
+    "zona": "Zona 1",
+    "lat": 45.460034,
+    "lng": 15.560542
+  },
+  {
+    "id": "247",
+    "name": "Hrnetić (DVD)",
+    "zona": "Zona 1",
+    "lat": 45.523985,
+    "lng": 15.532616
+  },
+  {
+    "id": "248",
+    "name": "Hrnetić (Groblje)",
+    "zona": "Zona 1",
+    "lat": 45.520577,
+    "lng": 15.530825
+  },
+  {
+    "id": "250",
+    "name": "Rečica I",
+    "zona": "Zona 3",
+    "lat": 45.505023,
+    "lng": 15.663245
+  },
+  {
+    "id": "251",
+    "name": "Rečica III",
+    "zona": "Zona 3",
+    "lat": 45.491121,
+    "lng": 15.664712
+  },
+  {
+    "id": "252",
+    "name": "Rečica II",
+    "zona": "Zona 3",
+    "lat": 45.497556,
+    "lng": 15.662473
+  },
+  {
+    "id": "253",
+    "name": "Rečica II",
+    "zona": "Zona 3",
+    "lat": 45.497105,
+    "lng": 15.662532
+  },
+  {
+    "id": "255",
+    "name": "Mala Švarča I",
+    "zona": "Zona 1",
+    "lat": 45.461015,
+    "lng": 15.548299
+  },
+  {
+    "id": "257",
+    "name": "Mala Švarča II",
+    "zona": "Zona 1",
+    "lat": 45.461723,
+    "lng": 15.556361
+  },
+  {
+    "id": "259",
+    "name": "Husje",
+    "zona": "Zona 2",
+    "lat": 45.483843,
+    "lng": 15.598702
+  },
+  {
+    "id": "262",
+    "name": "Vučjak (Kalvarija)",
+    "zona": "Zona 1",
+    "lat": 45.494521,
+    "lng": 15.510334
+  },
+  {
+    "id": "263",
+    "name": "Popović Brdo I",
+    "zona": "Zona 3",
+    "lat": 45.466583,
+    "lng": 15.636068
+  },
+  {
+    "id": "264",
+    "name": "Skakavac (Brežani)",
+    "zona": "Zona 4",
+    "lat": 45.458794,
+    "lng": 15.696204
+  },
+  {
+    "id": "265",
+    "name": "Brežani",
+    "zona": "Zona 4",
+    "lat": 45.469889,
+    "lng": 15.698678
+  },
+  {
+    "id": "266",
+    "name": "Brežani",
+    "zona": "Zona 4",
+    "lat": 45.470362,
+    "lng": 15.698573
+  },
+  {
+    "id": "267",
+    "name": "Ribari",
+    "zona": "Zona 4",
+    "lat": 45.488089,
+    "lng": 15.697581
+  },
+  {
+    "id": "268",
+    "name": "Slunjski Moravci",
+    "zona": "Zona 4",
+    "lat": 45.451308,
+    "lng": 15.706451
+  },
+  {
+    "id": "270",
+    "name": "Vukmanić 1",
+    "zona": "Zona 3",
+    "lat": 45.423322,
+    "lng": 15.646214
+  },
+  {
+    "id": "271",
+    "name": "Vukmanić 2",
+    "zona": "Zona 3",
+    "lat": 45.423279,
+    "lng": 15.654522
+  },
+  {
+    "id": "272",
+    "name": "Vukmanić 2",
+    "zona": "Zona 3",
+    "lat": 45.424378,
+    "lng": 15.655426
+  },
+  {
+    "id": "273",
+    "name": "Goljaki Turanski",
+    "zona": "Zona 2",
+    "lat": 45.445728,
+    "lng": 15.569984
+  },
+  {
+    "id": "274",
+    "name": "Turanj (škola)",
+    "zona": "Zona 1",
+    "lat": 45.461303,
+    "lng": 15.569291
+  },
+  {
+    "id": "275",
+    "name": "Mostanje I",
+    "zona": "Zona 1",
+    "lat": 45.474375,
+    "lng": 15.55988
+  },
+  {
+    "id": "276",
+    "name": "Mahično-pruga",
+    "zona": "Zona 2",
+    "lat": 45.556039,
+    "lng": 15.529723
+  },
+  {
+    "id": "277",
+    "name": "Vodostaj",
+    "zona": "Zona 1",
+    "lat": 45.502478,
+    "lng": 15.576883
+  },
+  {
+    "id": "278",
+    "name": "Zastinje (Grič)",
+    "zona": "Zona 2",
+    "lat": 45.434433,
+    "lng": 15.570985
+  },
+  {
+    "id": "279",
+    "name": "Vukoder",
+    "zona": "Zona 2",
+    "lat": 45.577966,
+    "lng": 15.543426
+  },
+  {
+    "id": "280",
+    "name": "Tuškani I",
+    "zona": "Zona 2",
+    "lat": 45.571824,
+    "lng": 15.557753
+  },
+  {
+    "id": "281",
+    "name": "Tuškani II",
+    "zona": "Zona 2",
+    "lat": 45.564119,
+    "lng": 15.550052
+  },
+  {
+    "id": "282",
+    "name": "Cerovac Vukmanički",
+    "zona": "Zona 2",
+    "lat": 45.426101,
+    "lng": 15.620116
+  },
+  {
+    "id": "283",
+    "name": "Cerovac Vukmanički",
+    "zona": "Zona 2",
+    "lat": 45.426074,
+    "lng": 15.619606
+  },
+  {
+    "id": "284",
+    "name": "Trebinja (Okretište)",
+    "zona": "Zona 3",
+    "lat": 45.437285,
+    "lng": 15.671108
+  },
+  {
+    "id": "285",
+    "name": "Skakavac (Banski Moravci)",
+    "zona": "Zona 4",
+    "lat": 45.464749,
+    "lng": 15.740942
+  },
+  {
+    "id": "286",
+    "name": "Slunjska Selnica",
+    "zona": "Zona 4",
+    "lat": 45.498308,
+    "lng": 15.718185
+  },
+  {
+    "id": "287",
+    "name": "Banski Moravci",
+    "zona": "Zona 4",
+    "lat": 45.461831,
+    "lng": 15.753516
+  },
+  {
+    "id": "288",
+    "name": "Sjeničak III",
+    "zona": "Zona 7",
+    "lat": 45.419418,
+    "lng": 15.797939
+  },
+  {
+    "id": "289",
+    "name": "Sjeničak II",
+    "zona": "Zona 7",
+    "lat": 45.427696,
+    "lng": 15.801878
+  },
+  {
+    "id": "290",
+    "name": "Sjeničak II",
+    "zona": "Zona 7",
+    "lat": 45.427196,
+    "lng": 15.801122
+  },
+  {
+    "id": "291",
+    "name": "Sjeničak I",
+    "zona": "Zona 6",
+    "lat": 45.439625,
+    "lng": 15.801042
+  },
+  {
+    "id": "292",
+    "name": "Sjeničak I",
+    "zona": "Zona 6",
+    "lat": 45.439447,
+    "lng": 15.801636
+  },
+  {
+    "id": "293",
+    "name": "Udbinja (Cikuši)",
+    "zona": "Zona 4",
+    "lat": 45.431252,
+    "lng": 15.7383
+  },
+  {
+    "id": "294",
+    "name": "Popović Brdo (Brođani)",
+    "zona": "Zona 3",
+    "lat": 45.456967,
+    "lng": 15.661642
+  },
+  {
+    "id": "295",
+    "name": "Tušilović II",
+    "zona": "Zona 3",
+    "lat": 45.395356,
+    "lng": 15.61496
+  },
+  {
+    "id": "296",
+    "name": "Tušilović II",
+    "zona": "Zona 3",
+    "lat": 45.393753,
+    "lng": 15.615169
+  },
+  {
+    "id": "297",
+    "name": "Ladvenjak",
+    "zona": "Zona 3",
+    "lat": 45.417909,
+    "lng": 15.58917
+  },
+  {
+    "id": "299",
+    "name": "Borlin (Ožujska)",
+    "zona": "Zona 1",
+    "lat": 45.510573,
+    "lng": 15.505072
+  },
+  {
+    "id": "300",
+    "name": "Borlin (Ožujska)",
+    "zona": "Zona 1",
+    "lat": 45.510769,
+    "lng": 15.504788
+  },
+  {
+    "id": "301",
+    "name": "Borlin (Gornja Jelsa)",
+    "zona": "Zona 1",
+    "lat": 45.508036,
+    "lng": 15.512906
+  },
+  {
+    "id": "302",
+    "name": "Zagrebačka (Pojatno)",
+    "zona": "Zona 1",
+    "lat": 45.533737,
+    "lng": 15.567684
+  },
+  {
+    "id": "303",
+    "name": "Donje Mekušje (Škola)",
+    "zona": "Zona 2",
+    "lat": 45.493823,
+    "lng": 15.587795
+  },
+  {
+    "id": "304",
+    "name": "Donje Mekušje (Škola)",
+    "zona": "Zona 2",
+    "lat": 45.49411,
+    "lng": 15.586867
+  },
+  {
+    "id": "306",
+    "name": "Trebinja",
+    "zona": "Zona 3",
+    "lat": 45.439454,
+    "lng": 15.678384
+  },
+  {
+    "id": "309",
+    "name": "Utinja (Okretište)",
+    "zona": "Zona 5",
+    "lat": 45.403584,
+    "lng": 15.723116
+  },
+  {
+    "id": "310",
+    "name": "Mala Jelsa (Raskrižje)",
+    "zona": "Zona 1",
+    "lat": 45.512547,
+    "lng": 15.502167
+  },
+  {
+    "id": "311",
+    "name": "Zagrebačka (Kanal Kupa)",
+    "zona": "Zona 1",
+    "lat": 45.541435,
+    "lng": 15.56996
+  },
+  {
+    "id": "312",
+    "name": "Vučjak (Zagradci)",
+    "zona": "Zona 1",
+    "lat": 45.483559,
+    "lng": 15.485763
+  },
+  {
+    "id": "313",
+    "name": "Autobusni kolodvor",
+    "zona": "Zona 1",
+    "lat": 45.488359,
+    "lng": 15.550557
+  },
+  {
+    "id": "315",
+    "name": "Kablar I",
+    "zona": "Zona 5",
+    "lat": 45.489401,
+    "lng": 15.740964
+  },
+  {
+    "id": "316",
+    "name": "Utinja (Dakići)",
+    "zona": "Zona 5",
+    "lat": 45.419687,
+    "lng": 15.734197
+  },
+  {
+    "id": "317",
+    "name": "Utinja (Ivanković selo)",
+    "zona": "Zona 5",
+    "lat": 45.410624,
+    "lng": 15.725221
+  },
+  {
+    "id": "318",
+    "name": "Utinja (Ivanković selo)",
+    "zona": "Zona 5",
+    "lat": 45.410473,
+    "lng": 15.724252
+  },
+  {
+    "id": "321",
+    "name": "Rožan-Breg",
+    "zona": "Zona 4",
+    "lat": 45.53051,
+    "lng": 15.76777
+  },
+  {
+    "id": "322",
+    "name": "Okić II",
+    "zona": "Zona 4",
+    "lat": 45.369632,
+    "lng": 15.661212
+  },
+  {
+    "id": "323",
+    "name": "Brezova Glava II",
+    "zona": "Zona 4",
+    "lat": 45.378438,
+    "lng": 15.637585
+  },
+  {
+    "id": "324",
+    "name": "Brezova Glava II",
+    "zona": "Zona 4",
+    "lat": 45.37858,
+    "lng": 15.637408
+  },
+  {
+    "id": "325",
+    "name": "Okić II",
+    "zona": "Zona 4",
+    "lat": 45.369207,
+    "lng": 15.661375
+  },
+  {
+    "id": "326",
+    "name": "Kablar II",
+    "zona": "Zona 5",
+    "lat": 45.481079,
+    "lng": 15.751961
+  },
+  {
+    "id": "327",
+    "name": "Sjeničak III",
+    "zona": "Zona 7",
+    "lat": 45.419877,
+    "lng": 15.798174
+  },
+  {
+    "id": "366",
+    "name": "Banska Selnica",
+    "zona": "Zona 4",
+    "lat": 45.502531,
+    "lng": 15.728765
+  },
+  {
+    "id": "367",
+    "name": "Brodarci",
+    "zona": "Zona 1",
+    "lat": 45.532415,
+    "lng": 15.535798
+  },
+  {
+    "id": "370",
+    "name": "Drežnik",
+    "zona": "Zona 1",
+    "lat": 45.500922,
+    "lng": 15.534176
+  },
+  {
+    "id": "371",
+    "name": "Donja Jelsa II",
+    "zona": "Zona 1",
+    "lat": 45.512154,
+    "lng": 15.520058
+  },
+  {
+    "id": "372",
+    "name": "Donja Jelsa II",
+    "zona": "Zona 1",
+    "lat": 45.512765,
+    "lng": 15.520589
+  }
 ]

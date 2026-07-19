@@ -2,7 +2,7 @@
 import { useApp, type TextSize } from '@/state/AppState';
 import { PRICES, META } from '@/lib/data';
 import { noticesFor } from '@/lib/schedule';
-import { Banner } from '@/components/common';
+import { NoticeBanners } from '@/components/common';
 
 const SIZES: { v: TextSize; label: string }[] = [
   { v: 'normalna', label: 'Normalna' },
@@ -38,28 +38,51 @@ export function InfoScreen() {
 
       <section className="info-section">
         <h2>Cjenik prijevoza</h2>
-        <table className="price">
-          <thead>
-            <tr>
-              <th scope="col">Karta</th>
-              <th scope="col">Cijena</th>
-            </tr>
-          </thead>
-          <tbody>
-            {PRICES.map((p) => (
-              <tr key={p.label}>
-                <td>{p.label}</td>
-                <td>{p.price}</td>
+        <p className="subtitle" style={{ marginTop: 0 }}>
+          Cijena karte ovisi o zoni (udaljenosti). Vrijedi od {PRICES.vrijediOd}
+          {PRICES.pdvUkljucen ? ' · PDV uključen' : ''}.
+        </p>
+        <div className="table-scroll">
+          <table className="price">
+            <thead>
+              <tr>
+                <th scope="col">Zona</th>
+                <th scope="col">Udaljenost</th>
+                <th scope="col">Jednokratna</th>
+                <th scope="col">Dnevna</th>
+                <th scope="col">Mjesečna</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {PRICES.zone.map((z) => (
+                <tr key={z.zona}>
+                  <td>
+                    <strong>{z.zona}</strong>
+                  </td>
+                  <td>{z.km} km</td>
+                  <td>{z.jednokratna}</td>
+                  <td>{z.dnevna}</td>
+                  <td>{z.mjesecna}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p className="price-note">
+          <strong>65+:</strong> {PRICES.besplatno}
+        </p>
+        <p className="subtitle">{PRICES.napomena}</p>
+        <p>
+          <a href={PRICES.pdfUrl} target="_blank" rel="noopener">
+            Službeni cjenik (PDF) — mjesečne učeničke/studentske i umirovljeničke karte
+          </a>
+        </p>
       </section>
 
       <section className="info-section">
         <h2>Aktivne obavijesti</h2>
         {notices.length ? (
-          notices.map((l) => <Banner key={l.id} line={l} />)
+          <NoticeBanners lines={notices} />
         ) : (
           <p className="subtitle">Trenutno nema obavijesti.</p>
         )}
@@ -69,14 +92,9 @@ export function InfoScreen() {
         <h2>O podacima</h2>
         <div className="card pad" style={{ fontSize: 'var(--pk-fs-body)' }}>
           <p>
-            Vozni redovi preuzimaju se s otvorenih podataka Grada Karlovca ({META.source}). Zadnje
-            ažuriranje: <strong>{META.updated}</strong>
+            Vozni redovi, trase i obavijesti preuzimaju se s otvorenih podataka Grada Karlovca (
+            {META.source}) i osvježavaju automatski. Zadnje ažuriranje: <strong>{META.updated}</strong>.
           </p>
-          {META.isDemo && (
-            <p style={{ marginTop: 8, color: 'var(--pk-text-muted)' }}>
-              Ovo je prototip s demo podacima — vremena nisu stvarna.
-            </p>
-          )}
           <p style={{ marginTop: 8 }}>
             <a href="mailto:bus@pametnikarlovac.hr">Prijavi grešku u podacima</a>
           </p>

@@ -1,19 +1,14 @@
 // Ekran stanice — sljedeći polasci ili cijeli dnevni raspored, spremi stanicu, na kartu, putovanje.
 import { useEffect } from 'react';
 import { useApp } from '@/state/AppState';
-import { LINES, stationById } from '@/lib/data';
-import {
-  departuresAt,
-  firstTomorrow,
-  lineTerminal,
-  lineTimesAt,
-  noticesFor,
-} from '@/lib/schedule';
-import { fmt, SCHED_LABEL } from '@/lib/dates';
-import { Banner, DepartureRow, LineBadge } from '@/components/common';
+import { LINES, stationById, linesAt } from '@/lib/data';
+import { departuresAt, firstTomorrow, dirData, dirTerminal, timesAtStation, noticesFor } from '@/lib/schedule';
+import { fmt } from '@/lib/dates';
+import { NoticeBanners, DepartureRow, LineBadge, LineChip } from '@/components/common';
 import { BackButton } from '@/components/BackButton';
 import { DemoNote } from '@/components/DemoNote';
-import { MapIcon, Star, Swap } from '@/lib/icons';
+import { MapIcon, Star, Swap, Chevron } from '@/lib/icons';
+import type { Line, Variant } from '@/lib/types';
 
 export function StationScreen() {
   const {
@@ -39,20 +34,21 @@ export function StationScreen() {
   const now = effNow();
   const notices = noticesFor(st.id);
   const isMy = myStation === st.id;
-  const linesHere = LINES.filter((l) => l.stops.some((s) => s.station === st.id));
+  const linesHere = linesAt(st.id);
 
   return (
     <div className="wrap">
       <BackButton />
-      {notices.map((l) => (
-        <Banner key={l.id} line={l} />
-      ))}
+      <NoticeBanners lines={notices} />
       <div>
-        <p className="eyebrow">Stanica</p>
+        <p className="eyebrow">Stanica{st.zona ? ' · ' + st.zona : ''}</p>
         <h1 className="screen-title">{st.name}</h1>
-        <p className="subtitle">
-          Linije: {linesHere.map((l) => l.id).join(', ')} · {SCHED_LABEL[schedType].toLowerCase()}
-        </p>
+        <p className="subtitle">Linije na ovoj stanici — dodirni za trasu i vozni red:</p>
+        <div className="chip-row line-chips">
+          {linesHere.map((l) => (
+            <LineChip key={l.id} line={l} />
+          ))}
+        </div>
       </div>
 
       {!stationShowAll ? (
@@ -85,7 +81,7 @@ export function StationScreen() {
           return (
             <div className="card pad empty">
               <strong>Nema više polazaka danas.</strong>
-              {ft !== null ? 'Prvi sutra: ' + fmt(ft) + '.' : ''}
+              {ft !== null ? ' Prvi sutra: ' + fmt(ft) + '.' : ''}
             </div>
           );
         })()
@@ -143,24 +139,34 @@ export function StationScreen() {
   );
 }
 
+interface Group {
+  line: Line;
+  variant: Variant;
+  dir: 0 | 1;
+  to: string;
+  times: number[];
+}
+
 function FullSchedule({ stationId }: { stationId: string }) {
-  const { schedType, effNow } = useApp();
+  const { schedType, effNow, openLine } = useApp();
   const now = effNow();
-  const linesHere = LINES.filter((l) => l.stops.some((s) => s.station === stationId));
-  const groups: { line: (typeof LINES)[number]; dir: 0 | 1; times: number[] }[] = [];
-  for (const line of linesHere) {
-    for (const dir of [0, 1] as const) {
-      const stops = dir === 0 ? line.stops : [...line.stops].reverse();
-      const idx = stops.findIndex((s) => s.station === stationId);
-      if (idx === -1 || idx === stops.length - 1) continue;
-      const times = lineTimesAt(line, stationId, dir, schedType);
-      if (times.length) groups.push({ line, dir, times });
+  const groups: Group[] = [];
+  for (const line of LINES) {
+    for (const variant of line.variants) {
+      for (const dir of [0, 1] as const) {
+        const d = dirData(variant, dir);
+        if (!d) continue;
+        const idx = d.stops.findIndex((s) => s.station === stationId);
+        if (idx === -1 || idx === d.stops.length - 1) continue;
+        const times = timesAtStation(d, stationId, schedType);
+        if (times.length) groups.push({ line, variant, dir, to: dirTerminal(d), times });
+      }
     }
   }
   if (!groups.length) {
     return (
       <div className="card pad empty">
-        <strong>Danas nema polazaka.</strong>
+        <strong>Taj dan nema polazaka s ove stanice.</strong>
       </div>
     );
   }
@@ -168,14 +174,20 @@ function FullSchedule({ stationId }: { stationId: string }) {
     <>
       {groups.map((g, gi) => {
         const nextIdx = g.times.findIndex((t) => t >= now);
+        const variantIdx = g.line.variants.indexOf(g.variant);
         return (
           <div className="card pad" key={gi}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <LineBadge id={g.line.id} />
-              <strong style={{ fontSize: 'var(--pk-fs-body-lg)' }}>
-                → {lineTerminal(g.line, g.dir)}
-              </strong>
-            </div>
+            <button
+              className="sched-head"
+              onClick={() => openLine(g.line.id, variantIdx, g.dir)}
+              aria-label={`Linija ${g.line.label} prema ${g.to} — otvori trasu`}
+            >
+              <LineBadge line={g.line} />
+              <strong style={{ fontSize: 'var(--pk-fs-body-lg)' }}>→ {g.to}</strong>
+              <span className="chev">
+                <Chevron />
+              </span>
+            </button>
             <div className="times-grid">
               {g.times.map((t, i) => (
                 <span key={i} className={i === nextIdx ? 'next' : t < now ? 'past' : ''}>

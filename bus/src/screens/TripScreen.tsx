@@ -1,14 +1,13 @@
-// Putovanje tamo-natrag — odabir dvije stanice, izravne veze u oba smjera, spremi na početni.
+// Planer rute — upiši polazište i odredište; dobij izravne linije ili vezu s jednim presjedanjem.
 import { useApp } from '@/state/AppState';
 import { STATIONS, stationById } from '@/lib/data';
-import { tripConnections } from '@/lib/schedule';
+import { planTrip } from '@/lib/schedule';
 import { fmt, fmtDate } from '@/lib/dates';
-import { Eta } from '@/components/common';
+import { Eta, LineBadge } from '@/components/common';
 import { BackButton } from '@/components/BackButton';
 import { DemoNote } from '@/components/DemoNote';
-import { LineBadge } from '@/components/common';
-import { Pin, Star, Swap } from '@/lib/icons';
-import type { Connection } from '@/lib/types';
+import { Pin, Star, Swap, Chevron } from '@/lib/icons';
+import type { Itinerary } from '@/lib/types';
 
 export function TripScreen() {
   const {
@@ -35,17 +34,17 @@ export function TripScreen() {
     <div className="wrap">
       <BackButton />
       <div>
-        <h1 className="screen-title">Putovanje</h1>
+        <h1 className="screen-title">Planer rute</h1>
         <p className="subtitle">
-          Polasci tamo i natrag · {isTodayView ? 'danas' : fmtDate(viewDateObj)}
+          Odaberi polazište i odredište · {isTodayView ? 'danas' : fmtDate(viewDateObj)}
         </p>
       </div>
 
-      <StationSelect id="trip-from" label="Od stanice" value={a} onChange={setTripFrom} />
-      <button className="swap-btn" aria-label="Zamijeni smjer" onClick={swap}>
-        <Swap /> Zamijeni smjer
+      <StationSelect id="trip-from" label="Polazište" value={a} onChange={setTripFrom} />
+      <button className="swap-btn" aria-label="Zamijeni polazište i odredište" onClick={swap}>
+        <Swap /> Zamijeni
       </button>
-      <StationSelect id="trip-to" label="Do stanice" value={b} onChange={setTripTo} />
+      <StationSelect id="trip-to" label="Odredište" value={b} onChange={setTripTo} />
 
       {(() => {
         if (a && b && a === b) {
@@ -58,34 +57,13 @@ export function TripScreen() {
         if (a && b) {
           const A = stationById(a)!;
           const B = stationById(b)!;
-          const tamo = tripConnections(a, b, schedType, now, 3);
-          const natrag = tripConnections(b, a, schedType, now, 3);
-          const anyDirect =
-            tripConnections(a, b, schedType, now).length ||
-            tripConnections(b, a, schedType, now).length;
-          if (!anyDirect) {
-            return (
-              <div className="card pad empty">
-                <strong>Nema izravne linije.</strong>
-                Između ovih stanica nema izravne veze — pogledaj kartu linija.
-              </div>
-            );
-          }
+          const tamo = planTrip(a, b, schedType, now, 4);
+          const natrag = planTrip(b, a, schedType, now, 4);
           const isSaved = !!trip && trip.a === a && trip.b === b;
           return (
             <>
-              <div className="card pad">
-                <p className="eyebrow">
-                  Tamo · {A.name} → {B.name}
-                </p>
-                <TripLeg deps={tamo} toName={B.name} />
-              </div>
-              <div className="card pad">
-                <p className="eyebrow">
-                  Natrag · {B.name} → {A.name}
-                </p>
-                <TripLeg deps={natrag} toName={A.name} />
-              </div>
+              <TripDir title={`Tamo · ${A.name} → ${B.name}`} plan={tamo} />
+              <TripDir title={`Natrag · ${B.name} → ${A.name}`} plan={natrag} />
               <button
                 className={'btn ' + (isSaved ? 'btn-secondary' : 'btn-primary')}
                 onClick={() => {
@@ -106,13 +84,88 @@ export function TripScreen() {
         }
         return (
           <div className="card pad empty">
-            <strong>Kamo putuješ?</strong>
-            Odaberi polaznu i odredišnu stanicu — pokazat ću ti polaske tamo i natrag.
+            <strong>Kamo putuješ?</strong> Odaberi polazište i odredište — pokazat ću ti koje linije voze i
+            kada, po potrebi i s jednim presjedanjem.
           </div>
         );
       })()}
 
       <DemoNote />
+    </div>
+  );
+}
+
+function TripDir({ title, plan }: { title: string; plan: ReturnType<typeof planTrip> }) {
+  const { isTodayView } = useApp();
+  return (
+    <div className="card pad">
+      <p className="eyebrow">{title}</p>
+      {!plan.itineraries.length ? (
+        <p className="subtitle" style={{ marginTop: 8 }}>
+          {isTodayView
+            ? 'Nema više polazaka danas (ni s presjedanjem).'
+            : 'Taj dan nema veze u ovom smjeru.'}
+        </p>
+      ) : (
+        <>
+          {!plan.direct && (
+            <p className="subtitle" style={{ marginTop: 0 }}>
+              Nema izravne linije — prikazujem vezu s jednim presjedanjem.
+            </p>
+          )}
+          <ul className="dep-list flat">
+            {plan.itineraries.map((it, i) => (
+              <li key={i}>
+                <ItinRow it={it} first={i === 0} />
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </div>
+  );
+}
+
+function ItinRow({ it, first }: { it: Itinerary; first?: boolean }) {
+  const total = it.arrive - it.depart;
+  if (it.legs.length === 1) {
+    const l = it.legs[0];
+    return (
+      <div className={'dep-row' + (first ? ' first' : '')}>
+        <LineBadge line={l.line} />
+        <div className="dep-main">
+          <div className="dep-dir">
+            {fmt(l.depart)} → {stationById(l.toId)?.name}
+          </div>
+          <div className="dep-time">
+            linija {l.line.label} · dolazak {fmt(l.arrive)} · {total} min
+          </div>
+        </div>
+        <Eta time={l.depart} />
+      </div>
+    );
+  }
+  const [l1, l2] = it.legs;
+  return (
+    <div className={'itin' + (first ? ' first' : '')}>
+      <div className="itin-legs">
+        <span className="itin-leg">
+          <LineBadge line={l1.line} size={30} />
+          <span className="txt">
+            <b>{fmt(l1.depart)}</b> {stationById(l1.fromId)?.name}
+          </span>
+        </span>
+        <span className="itin-transfer">
+          <Chevron size={16} /> presjedanje u {stationById(it.transferId)?.name} ({fmt(l1.arrive)})
+        </span>
+        <span className="itin-leg">
+          <LineBadge line={l2.line} size={30} />
+          <span className="txt">
+            <b>{fmt(l2.depart)}</b> {stationById(l2.fromId)?.name} → {stationById(l2.toId)?.name} ({fmt(l2.arrive)})
+          </span>
+        </span>
+      </div>
+      <Eta time={it.depart} />
     </div>
   );
 }
@@ -145,38 +198,5 @@ function StationSelect({
         </select>
       </div>
     </div>
-  );
-}
-
-function TripLeg({ deps, toName }: { deps: Connection[]; toName: string }) {
-  const { isTodayView } = useApp();
-  if (!deps.length) {
-    return (
-      <p className="subtitle" style={{ marginTop: 8 }}>
-        {isTodayView
-          ? 'Nema više polazaka danas u ovom smjeru.'
-          : 'Taj dan nema polazaka u ovom smjeru.'}
-      </p>
-    );
-  }
-  return (
-    <ul className="dep-list flat">
-      {deps.map((d, i) => (
-        <li key={i}>
-          <div className={'dep-row' + (i === 0 ? ' first' : '')}>
-            <LineBadge id={d.line.id} />
-            <div className="dep-main">
-              <div className="dep-dir">
-                {fmt(d.time)} → {toName}
-              </div>
-              <div className="dep-time">
-                linija {d.line.id} · dolazak u {fmt(d.arrive)} · vožnja {d.arrive - d.time} min
-              </div>
-            </div>
-            <Eta time={d.time} />
-          </div>
-        </li>
-      ))}
-    </ul>
   );
 }

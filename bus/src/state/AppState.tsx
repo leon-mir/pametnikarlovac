@@ -48,8 +48,10 @@ interface AppContextValue {
   myStation: string | null;
   setMyStation: (id: string | null) => void;
   station: string | null;
-  line: number | null;
-  setLine: (id: number) => void;
+  line: string | null;
+  openLine: (id: string, variant?: number, dir?: 0 | 1) => void;
+  lineVariant: number;
+  setLineVariant: (i: number) => void;
   lineDir: 0 | 1;
   setLineDir: (dir: 0 | 1) => void;
 
@@ -72,8 +74,8 @@ interface AppContextValue {
   setTripTo: (v: string | null) => void;
 
   // karta
-  mapFilter: number;
-  setMapFilter: (v: number) => void;
+  mapFilter: string; // '' = sve linije, inače Line.id
+  setMapFilter: (v: string) => void;
   mapSelected: string | null;
   setMapSelected: (v: string | null) => void;
 
@@ -105,7 +107,8 @@ export function AppProvider({ children }: { children: ReactNode }) {
     store.get('moja-stanica', null),
   );
   const [station, setStation] = useState<string | null>(null);
-  const [line, setLineState] = useState<number | null>(null);
+  const [line, setLineState] = useState<string | null>(null);
+  const [lineVariant, setLineVariant] = useState(0);
   const [lineDir, setLineDir] = useState<0 | 1>(0);
 
   const [schedOverride, setSchedOverrideState] = useState<SchedOverride>(() =>
@@ -117,7 +120,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [tripFrom, setTripFrom] = useState<string | null>(null);
   const [tripTo, setTripTo] = useState<string | null>(null);
 
-  const [mapFilter, setMapFilter] = useState<number>(0);
+  const [mapFilter, setMapFilter] = useState<string>('');
   const [mapSelected, setMapSelected] = useState<string | null>(null);
   const [stationShowAll, setStationShowAll] = useState<boolean>(false);
 
@@ -173,7 +176,15 @@ export function AppProvider({ children }: { children: ReactNode }) {
     [go],
   );
 
-  const setLine = useCallback((id: number) => setLineState(id), []);
+  const openLine = useCallback(
+    (id: string, variant = 0, dir: 0 | 1 = 0) => {
+      setLineState(id);
+      setLineVariant(variant);
+      setLineDir(dir);
+      go('line');
+    },
+    [go],
+  );
 
   const setMyStation = useCallback((id: string | null) => {
     setMyStationState(id);
@@ -222,7 +233,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
     setMyStation,
     station,
     line,
-    setLine,
+    openLine,
+    lineVariant,
+    setLineVariant,
     lineDir,
     setLineDir,
     schedOverride,
