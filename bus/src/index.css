@@ -34,6 +34,12 @@
 /* Boje linija dolaze iz podataka (GIS `boja_linije` → hex u data/scripts/fetch-bus.mjs),
    ne iz CSS varijabli — badge dobiva boju inline preko line.color. */
 
+/* Veličina teksta: "normalna" = uobičajena veličina kao u većini aplikacija;
+   "velika"/"najveća" iz shared tokena (1.15 / 1.3) ostaju za slabiji vid. */
+[data-textsize='normalna'] {
+  --pk-font-scale: 0.85;
+}
+
 /* ============================================================ Baza */
 * {
   box-sizing: border-box;
@@ -81,14 +87,18 @@ a {
 header.pk-header {
   background: var(--pk-primary);
   color: var(--pk-text-inverse);
-  padding: 12px 16px;
+  padding: 10px 16px 10px;
   display: flex;
-  align-items: center;
-  flex-wrap: nowrap; /* jedan red — chip nikad ne prelazi u drugi red */
-  gap: 12px;
+  flex-direction: column;
+  gap: 10px;
   position: sticky;
   top: 0;
   z-index: var(--pk-z-header);
+}
+.pk-header-top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 .pk-header .logo {
   flex: 0 0 auto;
@@ -109,7 +119,7 @@ header.pk-header {
   font-size: var(--pk-fs-body-lg);
   font-weight: 800;
   letter-spacing: 0.01em;
-  min-width: 0; /* dopusti skupljanje da chip stane u isti red */
+  min-width: 0;
   line-height: 1.05;
 }
 .pk-header .title small {
@@ -118,32 +128,48 @@ header.pk-header {
   font-weight: 400;
   opacity: 0.85;
   letter-spacing: 0.02em;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.sched-chip {
-  display: inline-flex;
+
+/* Puna donja traka: odabir dana i voznog reda */
+.pk-header-date {
+  position: relative;
+}
+.date-bar {
+  display: flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 6px 14px;
-  border: 1.5px solid rgba(255, 255, 255, 0.45);
-  border-radius: var(--pk-radius-full);
+  gap: 10px;
+  width: 100%;
+  min-height: 46px;
+  padding: 8px 14px;
+  border: 1.5px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--pk-radius-md);
+  background: rgba(255, 255, 255, 0.08);
   color: #ffffff;
-  font-size: var(--pk-fs-caption);
-  font-weight: 600;
-  white-space: nowrap;
+  font-size: var(--pk-fs-body);
+  font-weight: 700;
+  text-align: left;
 }
-.sched-chip svg {
+.date-bar > span {
+  flex: 1;
+}
+.date-bar svg {
   flex: 0 0 auto;
+}
+.date-bar .caret {
+  color: rgba(255, 255, 255, 0.8);
+  transform: rotate(90deg);
+  transition: transform 0.15s ease;
+}
+.date-bar .caret.up {
+  transform: rotate(-90deg);
 }
 
 /* Popover za odabir voznog reda */
 .sched-pop {
   position: absolute;
   top: calc(100% + 8px);
-  right: 12px;
+  left: 0;
+  right: 0;
   z-index: var(--pk-z-banner);
   background: var(--pk-surface);
   color: var(--pk-text);
@@ -271,8 +297,13 @@ button.card {
   background: var(--pk-primary);
   color: var(--pk-text-inverse);
   border-radius: var(--pk-radius-lg);
-  padding: 20px 16px 8px;
+  padding: 18px 16px;
   box-shadow: var(--pk-shadow-card);
+}
+.hero-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .hero .eyebrow {
   color: var(--pk-gold);
@@ -280,32 +311,102 @@ button.card {
   align-items: center;
   gap: 6px;
 }
+.hero-change {
+  margin-left: auto;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--pk-fs-caption);
+  font-weight: 600;
+  text-decoration: underline;
+  min-height: 40px;
+  padding: 0 4px;
+}
 .hero h2 {
   font-size: var(--pk-fs-h1);
   font-weight: 800;
   line-height: var(--pk-lh-tight);
   margin-top: 2px;
 }
-.hero .hero-actions {
-  display: flex;
-}
-.hero .hero-link {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 52px;
-  margin-top: 4px;
-  color: #ffffff;
-  font-size: var(--pk-fs-body);
-  font-weight: 600;
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
-}
 .hero .lead {
   margin-top: 6px;
   font-size: var(--pk-fs-body);
   opacity: 0.85;
+}
+.hero-empty {
+  margin-top: 12px;
+  font-size: var(--pk-fs-body-lg);
+}
+.hero-empty strong {
+  display: block;
+  font-size: var(--pk-fs-h3);
+}
+
+/* hero: jedan istaknut polazak + "zatim" niz */
+.hero-dep {
+  margin-top: 12px;
+}
+.hero-next {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  text-align: left;
+  color: #ffffff;
+  padding: 4px 0;
+}
+.hero-next-main {
+  flex: 1;
+  min-width: 0;
+}
+.hero-next-main .dir {
+  display: block;
+  font-size: var(--pk-fs-body-lg);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.hero-next-main .sub {
+  display: block;
+  font-size: var(--pk-fs-caption);
+  color: rgba(255, 255, 255, 0.72);
+  font-variant-numeric: tabular-nums;
+}
+.hero-next .dep-eta .big {
+  font-size: var(--pk-fs-mega);
+  color: #ffffff;
+}
+.hero-then {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
+  font-variant-numeric: tabular-nums;
+}
+.hero-then .lbl {
+  font-size: var(--pk-fs-caption);
+  color: rgba(255, 255, 255, 0.7);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+.hero-then .t {
+  font-size: var(--pk-fs-body-lg);
+  font-weight: 700;
+}
+.hero-all {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 14px;
+  border-radius: var(--pk-radius-md);
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  font-size: var(--pk-fs-body);
+  font-weight: 700;
 }
 
 /* ============================================================ Polasci */
@@ -1132,47 +1233,84 @@ nav.tabbar {
   padding: 0;
 }
 
-/* ============================================================ Planer — presjedanje */
-.itin {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  min-height: 64px;
-  padding: 12px 0;
-  width: 100%;
-}
-.itin.first {
-  /* prvi itinerar bez posebnog stila — istaknut je ETA-om */
-}
-.dep-list.flat li + li .itin {
-  border-top: 1px solid var(--pk-border-subtle);
-}
-.itin-legs {
-  flex: 1;
-  min-width: 0;
+/* ============================================================ Planer rute */
+.route-planner {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 10px;
+}
+.route-planner .swap-btn {
+  align-self: center;
+}
+.rp-hint {
+  margin: 2px 0 0;
+}
+.itin-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 4px;
+}
+.itin {
+  border: 1px solid var(--pk-border-subtle);
+  border-radius: var(--pk-radius-md);
+  background: var(--pk-surface);
+  padding: 12px 14px;
+}
+.itin.first {
+  border-color: var(--pk-secondary);
+  box-shadow: 0 0 0 1px var(--pk-secondary);
+}
+.itin-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.itin-time {
+  font-size: var(--pk-fs-body-lg);
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+.itin-meta {
+  font-size: var(--pk-fs-caption);
+  color: var(--pk-text-muted);
+}
+.itin-head .dep-eta {
+  margin-left: auto;
+}
+.itin-head .dep-eta .big {
+  font-size: var(--pk-fs-body-lg);
+}
+.itin-legs {
+  list-style: none;
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 .itin-leg {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
   font-size: var(--pk-fs-body);
 }
 .itin-leg .txt {
   min-width: 0;
+  line-height: 1.35;
 }
 .itin-leg .txt b {
   font-variant-numeric: tabular-nums;
 }
-.itin-transfer {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: var(--pk-fs-caption);
+.itin-leg .arrow {
   color: var(--pk-text-muted);
-  padding-left: 6px;
+}
+.itin-leg .xfer {
+  display: block;
+  font-size: var(--pk-fs-caption);
+  color: var(--pk-accent-text);
+  font-weight: 600;
 }
 
 /* ============================================================ Cjenik */
@@ -1274,4 +1412,154 @@ nav.tabbar {
     right: 16px;
     width: 380px;
   }
+}
+
+/* ============================================================ Disclosure + popis stanica */
+.disclosure {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 52px;
+  padding: 0 4px;
+  font-size: var(--pk-fs-body-lg);
+  font-weight: 700;
+  color: var(--pk-text);
+  text-align: left;
+}
+.disclosure > span {
+  flex: 1;
+}
+.caret {
+  transform: rotate(90deg);
+  transition: transform 0.15s ease;
+  color: var(--pk-text-muted);
+}
+.caret.up {
+  transform: rotate(-90deg);
+}
+.station-list {
+  list-style: none;
+  margin-top: 4px;
+  border-top: 1px solid var(--pk-border-subtle);
+}
+.station-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 56px;
+  padding: 8px 4px;
+  text-align: left;
+  color: var(--pk-text);
+  border-bottom: 1px solid var(--pk-border-subtle);
+}
+.station-row svg {
+  flex: 0 0 auto;
+  color: var(--pk-secondary);
+}
+.station-row .nm {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--pk-fs-body-lg);
+  font-weight: 600;
+}
+.station-row .nx {
+  font-variant-numeric: tabular-nums;
+  color: var(--pk-text-muted);
+  font-size: var(--pk-fs-body);
+}
+.station-row .caret,
+.station-row > svg:last-child {
+  color: var(--pk-text-muted);
+}
+
+/* ============================================================ Linija — odabir polaska + karta */
+.dir-seg button {
+  font-size: var(--pk-fs-body);
+  line-height: 1.2;
+}
+.times-grid.pickable {
+  gap: 8px;
+}
+.time-pick {
+  min-height: 44px;
+  padding: 6px 10px;
+  border: 1.5px solid var(--pk-border-subtle);
+  border-radius: var(--pk-radius-sm);
+  background: var(--pk-surface);
+  font-size: var(--pk-fs-body);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--pk-text);
+}
+.time-pick.past {
+  color: var(--pk-text-muted);
+  font-weight: 500;
+}
+.time-pick.next {
+  border-color: var(--pk-secondary);
+}
+.time-pick.sel {
+  background: var(--pk-primary);
+  border-color: var(--pk-primary);
+  color: #ffffff;
+}
+.route-map {
+  height: 260px;
+  border-radius: var(--pk-radius-md);
+  overflow: hidden;
+  border: 1px solid var(--pk-border-subtle);
+  background: #dde7e4;
+  z-index: 0;
+}
+
+/* ============================================================ Karta — toolbar + nazivi */
+.map-top-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.labels-toggle {
+  box-shadow: 0 2px 10px rgba(21, 64, 74, 0.18);
+}
+.labels-toggle.on {
+  background: var(--pk-primary);
+  color: #ffffff;
+  border-color: var(--pk-primary);
+}
+.chip.line-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.chip.line-filter .dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 99px;
+  flex: 0 0 auto;
+}
+.chip.line-filter small {
+  font-size: var(--pk-fs-caption);
+  color: var(--pk-text-muted);
+  font-weight: 500;
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.chip.line-filter[aria-pressed='true'] small {
+  color: rgba(255, 255, 255, 0.85);
+}
+.leaflet-tooltip.stop-label {
+  background: rgba(255, 255, 255, 0.92);
+  border: none;
+  box-shadow: 0 1px 4px rgba(21, 64, 74, 0.3);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--pk-text);
+  padding: 2px 6px;
+}
+.leaflet-tooltip.stop-label::before {
+  display: none;
 }

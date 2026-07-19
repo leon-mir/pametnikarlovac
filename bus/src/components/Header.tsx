@@ -1,8 +1,8 @@
-// Zaglavlje + "chip" za odabir voznog reda (dan i tip). Popover se zatvara klikom izvan.
+// Zaglavlje: logo (→ naslovnica) + naslov, pa puna donja traka za odabir dana/voznog reda.
 import { useEffect, useRef, useState } from 'react';
 import { useApp, type SchedOverride } from '@/state/AppState';
 import { autoSchedType, DAYS_HR, fmtDate, SCHED_LABEL, toISO } from '@/lib/dates';
-import { Calendar, Check } from '@/lib/icons';
+import { Calendar, Check, Chevron } from '@/lib/icons';
 import type { SchedType } from '@/lib/types';
 
 const TYPE_OPTS: [SchedOverride, string][] = [
@@ -20,6 +20,7 @@ export function Header() {
     schedType,
     isTodayView,
     viewDateObj,
+    goTab,
   } = useApp();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -62,19 +63,21 @@ export function Header() {
 
   return (
     <header className="pk-header on-dark">
-      <span className="logo">
-        <img src="/logo-mark.png" alt="" width={30} height={34} />
-      </span>
-      <div className="title">
-        Bus<small>Pametni Karlovac</small>
+      <div className="pk-header-top">
+        <button className="logo" onClick={() => goTab('home')} aria-label="Naslovnica">
+          <img src="/logo-mark.png" alt="Pametni Karlovac" width={30} height={34} />
+        </button>
+        <div className="title">
+          Bus<small>Pametni Karlovac</small>
+        </div>
       </div>
 
-      <div ref={ref} style={{ marginLeft: 'auto', position: 'relative', flexShrink: 0 }}>
+      <div ref={ref} className="pk-header-date">
         <button
-          className="sched-chip"
+          className="date-bar"
           aria-haspopup="true"
           aria-expanded={open}
-          aria-label="Odaberi vozni red"
+          aria-label="Odaberi dan i vozni red"
           onClick={(e) => {
             e.stopPropagation();
             setOpen((o) => !o);
@@ -82,6 +85,7 @@ export function Header() {
         >
           <Calendar />
           <span>{chipLabel}</span>
+          <Chevron size={18} className={'caret' + (open ? ' up' : '')} />
         </button>
 
         {open && (

@@ -87,12 +87,12 @@ export interface Leg {
   arrive: number; // min od ponoći, dolazak na toId
 }
 
-/** Itinerar A → B: 1 noga (izravno) ili 2 noge (jedno presjedanje). */
+/** Itinerar A → B: jedna ili više nogu (0+ presjedanja). */
 export interface Itinerary {
   legs: Leg[];
-  transferId?: string; // stanica presjedanja (kod 2 noge)
   depart: number;
   arrive: number;
+  transfers: number; // broj presjedanja = legs.length - 1
 }
 
 // --- Cjenik (zonski, gis.karlovac.hr/static/pdf) ---

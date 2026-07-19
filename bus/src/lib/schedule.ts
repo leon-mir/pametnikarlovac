@@ -99,72 +99,115 @@ export function tripConnections(
   return limit ? out.slice(0, limit) : out;
 }
 
-// --- Planer rute: izravno ili jedno presjedanje ---
+// --- Planer rute: koliko god presjedanja treba (RAPTOR-lite, najraniji dolazak) ---
 
 const MIN_TRANSFER = 3; // min. minuta za presjedanje
-const MAX_TRANSFER_WAIT = 45; // najduže čekanje na presjedanju
+const MAX_ROUNDS = 6; // gornja granica broja vožnji (≈ 5 presjedanja)
 
-/** Sve pojedinačne vožnje smjera od stanice `fromId` do bilo koje kasnije stanice, nakon `now`. */
-function ridesFrom(fromId: string, sched: SchedType, now: number): Leg[] {
-  const out: Leg[] = [];
-  for (const { line, dir, d } of eachDirection()) {
-    const ia = d.stops.findIndex((s) => s.station === fromId);
-    if (ia === -1 || ia === d.stops.length - 1) continue;
-    for (const start of d.departures[sched] ?? []) {
-      const depart = toMin(start) + d.stops[ia].offset;
-      if (depart < now) continue;
-      for (let ib = ia + 1; ib < d.stops.length; ib++) {
-        const arrive = toMin(start) + d.stops[ib].offset;
-        out.push({ line, dir, fromId, toId: d.stops[ib].station, depart, arrive });
-      }
-    }
-  }
-  return out;
+interface Label {
+  line: Line;
+  dir: 0 | 1;
+  boardStation: string;
+  boardTime: number;
+  arriveTime: number;
 }
 
-/**
- * Itinerari A → B: prvo izravni; ako ih nema, s jednim presjedanjem.
- * Vraća do `limit` najranijih po dolasku (uz razumno čekanje na presjedanju).
- */
-export function planTrip(
+/** Najraniji dolazak A → B s polaskom u/nakon `now` (broj vožnji do MAX_ROUNDS). Null ako nema veze. */
+function earliestRoute(aId: string, bId: string, sched: SchedType, now: number): Itinerary | null {
+  const start = now < 0 ? 0 : now;
+  const arrival = new Map<string, number>([[aId, start]]);
+  const label = new Map<string, Label>();
+  let marked = new Set<string>([aId]);
+
+  for (let round = 0; round < MAX_ROUNDS && marked.size; round++) {
+    const prev = new Map(arrival); // odluke o ukrcaju koriste stanje s početka runde (1 vožnja po rundi)
+    const nextMarked = new Set<string>();
+    for (const { line, dir, d } of eachDirection()) {
+      const starts = d.departures[sched] ?? [];
+      if (!starts.length) continue;
+      let trip: number | null = null; // odabrano vrijeme polaska s početne stanice smjera
+      let boardStation: string | null = null;
+      let boardTime = 0;
+      for (let i = 0; i < d.stops.length; i++) {
+        const s = d.stops[i].station;
+        const off = d.stops[i].offset;
+        if (trip !== null) {
+          const arr = trip + off;
+          if (arr < (arrival.get(s) ?? Infinity)) {
+            arrival.set(s, arr);
+            label.set(s, { line, dir, boardStation: boardStation!, boardTime, arriveTime: arr });
+            nextMarked.add(s);
+          }
+        }
+        // možemo li ovdje uhvatiti raniji polazak? (stanica dosegnuta u prethodnoj rundi)
+        const ready = prev.get(s);
+        if (ready !== undefined) {
+          const need = ready + (s === aId ? 0 : MIN_TRANSFER);
+          let best: number | null = null;
+          for (const st of starts) {
+            const stm = toMin(st);
+            if (stm + off >= need) {
+              best = stm;
+              break; // starts su sortirani → prvi koji zadovoljava je najraniji
+            }
+          }
+          if (best !== null && (trip === null || best < trip)) {
+            trip = best;
+            boardStation = s;
+            boardTime = best + off;
+          }
+        }
+      }
+    }
+    marked = nextMarked;
+  }
+
+  if (!arrival.has(bId) || !label.has(bId)) return null;
+  const legsRev: Leg[] = [];
+  let cur = bId;
+  for (let guard = 0; cur !== aId && guard < MAX_ROUNDS + 2; guard++) {
+    const l = label.get(cur);
+    if (!l) return null;
+    legsRev.push({ line: l.line, dir: l.dir, fromId: l.boardStation, toId: cur, depart: l.boardTime, arrive: l.arriveTime });
+    cur = l.boardStation;
+  }
+  if (cur !== aId) return null;
+  // spoji uzastopne noge iste linije/smjera (nije stvarno presjedanje)
+  const legs: Leg[] = [];
+  for (const leg of legsRev.reverse()) {
+    const last = legs[legs.length - 1];
+    if (last && last.line.id === leg.line.id && last.dir === leg.dir) {
+      last.toId = leg.toId;
+      last.arrive = leg.arrive;
+    } else {
+      legs.push({ ...leg });
+    }
+  }
+  return { legs, depart: legs[0].depart, arrive: legs[legs.length - 1].arrive, transfers: legs.length - 1 };
+}
+
+/** Nekoliko itinerara A → B (najraniji, pa idući polasci). */
+export function planRoutes(
   aId: string,
   bId: string,
   sched: SchedType,
   now: number,
-  limit = 4,
-): { direct: boolean; itineraries: Itinerary[] } {
-  // 1) izravno
-  const direct = tripConnections(aId, bId, sched, now).map<Itinerary>((c) => ({
-    legs: [{ line: c.line, dir: c.dir, fromId: aId, toId: bId, depart: c.time, arrive: c.arrive }],
-    depart: c.time,
-    arrive: c.arrive,
-  }));
-  direct.sort((x, y) => x.depart - y.depart);
-  if (direct.length) return { direct: true, itineraries: direct.slice(0, limit) };
-
-  // 2) jedno presjedanje — spoji vožnje iz A s vožnjama koje s neke međustanice stižu do B
-  const fromA = ridesFrom(aId, sched, now);
-  const best = new Map<string, Itinerary>(); // ključ: linija1-linija2-transfer → najraniji dolazak
-  for (const leg1 of fromA) {
-    if (leg1.toId === bId || leg1.toId === aId) continue;
-    const onward = ridesFrom(leg1.toId, sched, leg1.arrive + MIN_TRANSFER).filter((l) => l.toId === bId);
-    for (const leg2 of onward) {
-      const wait = leg2.depart - leg1.arrive;
-      if (wait > MAX_TRANSFER_WAIT) continue;
-      if (leg2.line.id === leg1.line.id) continue; // isto = zapravo izravno, preskoči
-      const key = `${leg1.line.id}>${leg2.line.id}@${leg1.toId}`;
-      const it: Itinerary = {
-        legs: [leg1, leg2],
-        transferId: leg1.toId,
-        depart: leg1.depart,
-        arrive: leg2.arrive,
-      };
-      const prev = best.get(key);
-      if (!prev || it.arrive < prev.arrive) best.set(key, it);
+  count = 3,
+): Itinerary[] {
+  const out: Itinerary[] = [];
+  const seen = new Set<string>();
+  let from = now;
+  for (let k = 0; k < count; k++) {
+    const it = earliestRoute(aId, bId, sched, from);
+    if (!it) break;
+    const sig = it.legs.map((l) => `${l.line.id}:${l.depart}:${l.toId}`).join('|');
+    if (!seen.has(sig)) {
+      seen.add(sig);
+      out.push(it);
     }
+    from = it.depart + 1; // sljedeći polazak nakon ovog
   }
-  const itineraries = [...best.values()].sort((x, y) => x.arrive - y.arrive || x.depart - y.depart);
-  return { direct: false, itineraries: itineraries.slice(0, limit) };
+  return out;
 }
 
 /** Aktivne obavijesti (za stanicu, ili sve ako je stationId null). */

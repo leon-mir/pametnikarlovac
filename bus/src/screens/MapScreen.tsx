@@ -1,6 +1,6 @@
 // Karta linija i stanica (Leaflet + OpenStreetMap). Učitava se lijeno (vidi App.tsx).
 // Trase se crtaju po stvarnoj geometriji (po cesti) iz podataka, ne pravocrtno.
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useApp } from '@/state/AppState';
@@ -9,7 +9,15 @@ import { departuresAt } from '@/lib/schedule';
 import { DepartureRow } from '@/components/common';
 import { Back, Chevron, Close } from '@/lib/icons';
 import geometryJson from '@data/geometry.json';
-import type { GeometryMap } from '@/lib/types';
+import type { GeometryMap, Line } from '@/lib/types';
+
+/** Krajevi linije "a → b" (prva varijanta, smjer tamo) za oznaku na filteru. */
+function lineEnds(line: Line): string {
+  const st = line.variants[0]?.forward.stops ?? [];
+  const a = stationById(st[0]?.station)?.name ?? '';
+  const b = stationById(st[st.length - 1]?.station)?.name ?? '';
+  return a && b ? `${a} → ${b}` : '';
+}
 
 // Geometrija trasa (po cesti) — velika, zato je u zasebnom fileu koji se bundle-a samo u
 // ovaj (lijeno učitani) chunk karte.
@@ -37,6 +45,7 @@ export function MapScreen() {
   const { mapFilter, setMapFilter, mapSelected, setMapSelected, schedType, effNow, openStation, goBack } =
     useApp();
 
+  const [labels, setLabels] = useState(false);
   const elRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const markers = useRef<Record<string, L.Marker>>({});
@@ -111,20 +120,31 @@ export function MapScreen() {
     for (const st of STATIONS) {
       const onLine =
         all ||
-        activeLine?.variants.some(
+        (activeLine?.variants.some(
           (v) =>
             v.forward.stops.some((s) => s.station === st.id) ||
             (v.back?.stops.some((s) => s.station === st.id) ?? false),
-        );
-      const el = markers.current[st.id]?.getElement();
+        ) ??
+          false);
+      const m = markers.current[st.id];
+      const el = m?.getElement();
       if (el) el.style.opacity = onLine ? '1' : '.2';
+      // nazivi stanica (toggle) — prikaži samo za vidljive stanice da ne bude gužve
+      if (m) {
+        const wantLabel = labels && onLine;
+        if (wantLabel && !m.getTooltip()) {
+          m.bindTooltip(st.name, { permanent: true, direction: 'right', offset: [8, 0], className: 'stop-label' });
+        } else if (!wantLabel && m.getTooltip()) {
+          m.unbindTooltip();
+        }
+      }
     }
     if (activeLine) {
       const grp = L.featureGroup(routes.current[activeLine.id] ?? []);
       const bounds = grp.getBounds();
       if (bounds.isValid()) map.fitBounds(bounds, { padding: [56, 56] });
     }
-  }, [mapFilter]);
+  }, [mapFilter, labels]);
 
   // istaknuta stanica
   useEffect(() => {
@@ -149,9 +169,18 @@ export function MapScreen() {
       <div className="map-el" ref={elRef} />
 
       <div className="map-top">
-        <button className="map-back" onClick={goBack}>
-          <Back /> Natrag
-        </button>
+        <div className="map-top-row">
+          <button className="map-back" onClick={goBack}>
+            <Back /> Natrag
+          </button>
+          <button
+            className={'chip labels-toggle' + (labels ? ' on' : '')}
+            aria-pressed={labels}
+            onClick={() => setLabels((v) => !v)}
+          >
+            {labels ? 'Sakrij nazive' : 'Nazivi stanica'}
+          </button>
+        </div>
         <div className="map-filters">
           <button className="chip" aria-pressed={mapFilter === ''} onClick={() => setMapFilter('')}>
             Sve linije
@@ -159,12 +188,14 @@ export function MapScreen() {
           {LINES.map((l) => (
             <button
               key={l.id}
-              className="chip"
+              className="chip line-filter"
               aria-pressed={mapFilter === l.id}
-              aria-label={`Linija ${l.label}`}
+              aria-label={`Linija ${l.label} — ${lineEnds(l)}`}
               onClick={() => setMapFilter(l.id)}
             >
-              <span style={{ width: 14, height: 14, borderRadius: 99, background: l.color }} /> {l.label}
+              <span className="dot" style={{ background: l.color }} />
+              <b>{l.label}</b>
+              <small>{lineEnds(l)}</small>
             </button>
           ))}
         </div>

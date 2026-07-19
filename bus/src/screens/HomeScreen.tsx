@@ -1,13 +1,14 @@
 // Početni ekran (tab Stanica) — "Kad mi ide bus?".
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useApp } from '@/state/AppState';
 import { STATIONS, stationById } from '@/lib/data';
-import { departuresAt, firstTomorrow, noticesFor, tripConnections } from '@/lib/schedule';
-import { fmt, fmtDate, nowMin, SCHED_LABEL } from '@/lib/dates';
-import { NoticeBanners, DepartureRow } from '@/components/common';
+import { departuresAt, firstTomorrow, noticesFor } from '@/lib/schedule';
+import { fmt, fmtDate, SCHED_LABEL } from '@/lib/dates';
+import { NoticeBanners, LineBadge, Eta } from '@/components/common';
+import { RoutePlanner } from '@/components/RoutePlanner';
 import { DemoNote } from '@/components/DemoNote';
-import { Chevron, Close, Locate, MapIcon, Pin, Search, Star, Swap } from '@/lib/icons';
-import type { Connection } from '@/lib/types';
+import { Chevron, Close, Locate, MapIcon, Pin, Search, Star } from '@/lib/icons';
+import type { Departure } from '@/lib/types';
 
 export function HomeScreen() {
   const {
@@ -18,9 +19,8 @@ export function HomeScreen() {
     viewDateObj,
     effNow,
     openStation,
+    openLine,
     go,
-    tripFrom,
-    setTripFrom,
     toast,
   } = useApp();
   const now = effNow();
@@ -41,36 +41,31 @@ export function HomeScreen() {
         <>
           <NoticeBanners lines={noticesFor(my.id)} />
           <div className="hero">
-            <p className="eyebrow">
-              <Star filled /> Moja stanica
-            </p>
-            <h2>{my.name}</h2>
-            {(() => {
-              const deps = departuresAt(my.id, schedType, now, 4);
-              if (deps.length) {
-                return (
-                  <ul className="dep-list">
-                    {deps.map((d, i) => (
-                      <li key={i}>
-                        <DepartureRow dep={d} first={i === 0} />
-                      </li>
-                    ))}
-                  </ul>
-                );
-              }
-              const ft = firstTomorrow(my.id);
-              return (
-                <div className="empty">
-                  <strong>Nema više polazaka danas.</strong>
-                  {ft !== null ? 'Prvi sutra: ' + fmt(ft) + '.' : ''}
-                </div>
-              );
-            })()}
-            <div className="hero-actions">
-              <button className="hero-link" onClick={() => openStation(my.id)}>
-                Svi polasci <Chevron />
+            <div className="hero-top">
+              <p className="eyebrow">
+                <Star filled /> Moja stanica
+              </p>
+              <button className="hero-change" onClick={() => openStation(my.id)}>
+                promijeni
               </button>
             </div>
+            <h2>{my.name}</h2>
+            {(() => {
+              const deps = departuresAt(my.id, schedType, now, 6);
+              if (!deps.length) {
+                const ft = firstTomorrow(my.id);
+                return (
+                  <div className="hero-empty">
+                    <strong>Nema više polazaka danas.</strong>
+                    {ft !== null ? ' Prvi sutra: ' + fmt(ft) + '.' : ''}
+                  </div>
+                );
+              }
+              return <HeroDepartures deps={deps} onLine={openLine} />;
+            })()}
+            <button className="hero-all" onClick={() => openStation(my.id)}>
+              Svi polasci <Chevron />
+            </button>
           </div>
         </>
       ) : (
@@ -79,24 +74,16 @@ export function HomeScreen() {
             <Star /> Moja stanica
           </p>
           <h2>Spremi svoju stanicu</h2>
-          <p className="lead">
-            Odaberi stanicu ispod i polasci će te čekati ovdje — bez ijednog dodira.
-          </p>
-          <div style={{ height: 16 }} />
+          <p className="lead">Odaberi stanicu ispod i polasci će te čekati ovdje — bez ijednog dodira.</p>
         </div>
       )}
 
-      <SavedTrip />
-
-      <button
-        className="btn btn-secondary"
-        onClick={() => {
-          if (!tripFrom && myStation) setTripFrom(myStation);
-          go('trip');
-        }}
-      >
-        <Swap /> Putovanje tamo-natrag
-      </button>
+      <div className="card pad">
+        <p className="eyebrow" style={{ marginBottom: 10 }}>
+          Kako doći — planer rute
+        </p>
+        <RoutePlanner />
+      </div>
 
       <StationSearch />
 
@@ -136,73 +123,84 @@ export function HomeScreen() {
         </button>
       </div>
 
-      <div>
-        <p className="field-label">Sve stanice</p>
-        <div className="chip-row">
-          {STATIONS.map((s) => (
-            <button key={s.id} className="chip" onClick={() => openStation(s.id)}>
-              {s.name}
-            </button>
-          ))}
-        </div>
-      </div>
+      <AllStations />
 
       <DemoNote />
     </div>
   );
 }
 
-function SavedTrip() {
-  const { trip, schedType, isTodayView, effNow, setTripFrom, setTripTo, go } = useApp();
-  if (!trip) return null;
-  const A = stationById(trip.a);
-  const B = stationById(trip.b);
-  if (!A || !B) return null;
-  const now = effNow();
-  const tamo = tripConnections(A.id, B.id, schedType, now, 1)[0];
-  const natrag = tripConnections(B.id, A.id, schedType, now, 1)[0];
-  const legVal = (d: Connection | undefined): [string, string] => {
-    if (!d) return ['—', 'nema više danas'];
-    const diff = d.time - nowMin();
-    if (!isTodayView) return [fmt(d.time), 'linija ' + d.line.label];
-    if (diff <= 0) return ['kreće', 'upravo · linija ' + d.line.label];
-    if (diff > 59) return [fmt(d.time), 'linija ' + d.line.label];
-    return ['za ' + diff + ' min', fmt(d.time) + ' · linija ' + d.line.label];
-  };
-  const [tv, ts] = legVal(tamo);
-  const [nv, ns] = legVal(natrag);
+/** Hero prikaz: jedan istaknut sljedeći polazak + "zatim" niz idućih vremena. */
+function HeroDepartures({ deps, onLine }: { deps: Departure[]; onLine: (id: string, v?: number, d?: 0 | 1) => void }) {
+  const first = deps[0];
+  const seen = new Set([first.time]);
+  const rest: Departure[] = [];
+  for (const d of deps.slice(1)) {
+    if (seen.has(d.time)) continue;
+    seen.add(d.time);
+    rest.push(d);
+    if (rest.length >= 4) break;
+  }
+  const vIdx = Math.max(0, first.line.variants.indexOf(first.variant));
   return (
-    <button
-      className="card trip-home"
-      aria-label={`Moje putovanje ${A.name} – ${B.name}`}
-      onClick={() => {
-        setTripFrom(trip.a);
-        setTripTo(trip.b);
-        go('trip');
-      }}
-    >
-      <span className="head">
-        <Swap />{' '}
-        <strong>
-          {A.name} ⇄ {B.name}
-        </strong>{' '}
-        <span className="chev">
-          <Chevron />
+    <div className="hero-dep">
+      <button
+        className="hero-next"
+        onClick={() => onLine(first.line.id, vIdx, first.dir)}
+        aria-label={`Linija ${first.line.label} prema ${first.to}`}
+      >
+        <LineBadge line={first.line} />
+        <span className="hero-next-main">
+          <span className="dir">→ {first.to}</span>
+          <span className="sub">
+            linija {first.line.label} · polazak {fmt(first.time)}
+          </span>
         </span>
-      </span>
-      <span className="legs">
-        <span className="leg">
-          <span className="lbl">Tamo</span>
-          <span className="val">{tv}</span>
-          <span className="sub">{ts}</span>
-        </span>
-        <span className="leg">
-          <span className="lbl">Natrag</span>
-          <span className="val">{nv}</span>
-          <span className="sub">{ns}</span>
-        </span>
-      </span>
-    </button>
+        <Eta time={first.time} />
+      </button>
+      {rest.length > 0 && (
+        <div className="hero-then">
+          <span className="lbl">zatim</span>
+          {rest.map((d, i) => (
+            <span key={i} className="t">
+              {fmt(d.time)}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AllStations() {
+  const { schedType, effNow, openStation } = useApp();
+  const [open, setOpen] = useState(false);
+  const now = effNow();
+  const sorted = useMemo(() => [...STATIONS].sort((a, b) => a.name.localeCompare(b.name, 'hr')), []);
+  return (
+    <div>
+      <button className="disclosure" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <span>Sve stanice ({STATIONS.length})</span>
+        <Chevron size={20} className={'caret' + (open ? ' up' : '')} />
+      </button>
+      {open && (
+        <ul className="station-list">
+          {sorted.map((s) => {
+            const n = departuresAt(s.id, schedType, now, 1)[0];
+            return (
+              <li key={s.id}>
+                <button className="station-row" onClick={() => openStation(s.id)}>
+                  <Pin />
+                  <span className="nm">{s.name}</span>
+                  <span className="nx">{n ? fmt(n.time) : '—'}</span>
+                  <Chevron size={18} />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      )}
+    </div>
   );
 }
 
@@ -211,9 +209,7 @@ function StationSearch() {
   const [q, setQ] = useState('');
   const now = effNow();
   const query = q.trim().toLowerCase();
-  const hits = query
-    ? STATIONS.filter((s) => s.name.toLowerCase().includes(query)).slice(0, 5)
-    : [];
+  const hits = query ? STATIONS.filter((s) => s.name.toLowerCase().includes(query)).slice(0, 6) : [];
   return (
     <div>
       <label className="field-label" htmlFor="search-input">
