@@ -1,9 +1,9 @@
 {
-  "updated": "22.7.2026.",
+  "updated": "23.7.2026.",
   "source": "gis.karlovac.hr",
   "sourceUrl": "https://gis.karlovac.hr/thematic-map/bus-prijevoz",
   "isDemo": false,
-  "fetchedAt": "2026-07-22T06:09:23Z",
+  "fetchedAt": "2026-07-23T06:14:55Z",
   "lines": 23,
   "variants": 25,
   "stations": 277
